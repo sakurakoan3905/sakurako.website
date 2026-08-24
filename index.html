@@ -4,23 +4,23 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Sakurako Type Lab。ローマ字タイピングでWPMと正確率を測定し、平均値やランキングと比較できます。">
-  <meta name="theme-color" content="#20251f">
+  <meta name="theme-color" content="#092f35">
   <title>Sakurako Type Lab — タイピングゲーム</title>
   <style>
     :root {
-      --paper: #f7f4ec;
-      --paper-deep: #ebe7da;
-      --ink: #20251f;
-      --muted: #6f766a;
-      --line: rgba(32, 37, 31, .14);
-      --line-strong: rgba(32, 37, 31, .27);
-      --lime: #d7ef68;
-      --coral: #ff806a;
-      --lavender: #d8cef7;
-      --white: #fffdf7;
-      --success: #557c4f;
-      --danger: #d65e55;
-      --shadow: 0 18px 46px rgba(45, 50, 37, .1);
+      --paper: #edf5f3;
+      --paper-deep: #dceae7;
+      --ink: #092f35;
+      --muted: #5b767b;
+      --line: rgba(9, 47, 53, .15);
+      --line-strong: rgba(9, 47, 53, .3);
+      --lime: #8bded2;
+      --coral: #d27d6d;
+      --lavender: #c8dedc;
+      --white: #fbfffe;
+      --success: #247b76;
+      --danger: #c95f5b;
+      --shadow: 0 18px 46px rgba(9, 47, 53, .13);
       --radius-lg: 30px;
       --radius-md: 18px;
       --sans: "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans JP", system-ui, sans-serif;
@@ -41,8 +41,9 @@
     a { color: inherit; text-decoration: none; }
     button, input { font: inherit; }
     button { cursor: pointer; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
     a:focus-visible, button:focus-visible, input:focus-visible { outline: 3px solid var(--coral); outline-offset: 4px; }
-    ::selection { color: var(--ink); background: var(--lime); }
+    ::selection { color: var(--white); background: var(--success); }
 
     .page-shell { width: min(1160px, calc(100% - 48px)); margin: 0 auto; }
     .site-header {
@@ -93,7 +94,7 @@
     h1 em::after { position: absolute; right: 2%; bottom: 4px; left: 3%; height: 10px; z-index: -1; content: ""; background: var(--lime); transform: rotate(-2deg); }
     .hero-copy { max-width: 640px; margin: 23px 0 0; color: var(--muted); font-size: .95rem; letter-spacing: .025em; }
     .average-card { position: relative; overflow: hidden; padding: 26px 25px 24px; border-radius: var(--radius-md); background: var(--ink); color: var(--white); }
-    .average-card::after { position: absolute; right: -33px; bottom: -56px; width: 135px; height: 135px; border: 1px solid rgba(215, 239, 104, .7); border-radius: 50%; content: ""; }
+    .average-card::after { position: absolute; right: -33px; bottom: -56px; width: 135px; height: 135px; border: 1px solid rgba(139, 222, 210, .7); border-radius: 50%; content: ""; }
     .average-label { position: relative; z-index: 1; display: block; color: var(--lime); font-size: .62rem; font-weight: 800; letter-spacing: .15em; }
     .average-number { position: relative; z-index: 1; display: flex; align-items: baseline; gap: 9px; margin-top: 9px; }
     .average-number strong { font-family: var(--mono); font-size: 3.45rem; letter-spacing: -.1em; line-height: 1; }
@@ -121,15 +122,28 @@
     .mode-button { min-width: 48px; padding: 6px 9px; border: 0; border-radius: 99px; background: transparent; color: var(--muted); font-family: var(--mono); font-size: .66rem; transition: background .2s ease, color .2s ease; }
     .mode-button:hover { color: var(--ink); }
     .mode-button[aria-selected="true"] { background: var(--ink); color: var(--white); }
+    .difficulty-row { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin: -8px 0 22px; }
+    .difficulty-switch { display: inline-flex; gap: 4px; padding: 4px; border-radius: 99px; background: var(--paper); }
+    .difficulty-button { min-width: 52px; padding: 6px 9px; border: 0; border-radius: 99px; background: transparent; color: var(--muted); font-family: var(--mono); font-size: .62rem; transition: background .2s ease, color .2s ease; }
+    .difficulty-button:hover { color: var(--ink); }
+    .difficulty-button[aria-selected="true"] { background: var(--success); color: var(--white); }
+    .genre-row { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin: -8px 0 22px; }
+    .genre-select-wrap { position: relative; display: inline-flex; align-items: center; }
+    .genre-select { min-width: 166px; padding: 8px 32px 8px 12px; border: 1px solid var(--line); border-radius: 99px; outline: 0; appearance: none; background: var(--paper); color: var(--ink); font-family: var(--mono); font-size: .62rem; letter-spacing: .05em; }
+    .genre-select:focus { border-color: var(--success); box-shadow: 0 0 0 3px rgba(139, 222, 210, .3); }
+    .genre-select-wrap::after { position: absolute; right: 13px; color: var(--success); content: "⌄"; font-size: .82rem; pointer-events: none; }
     .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; margin-bottom: 26px; }
     .stat { min-width: 0; padding: 14px 15px 12px; border-radius: 13px; background: var(--paper); }
     .stat-label { display: block; overflow: hidden; color: var(--muted); font-size: .61rem; font-weight: 800; letter-spacing: .12em; text-overflow: ellipsis; white-space: nowrap; }
     .stat-value { display: block; margin-top: 3px; font-family: var(--mono); font-size: 1.45rem; font-weight: 700; letter-spacing: -.08em; line-height: 1.25; }
     .stat-value span { margin-left: 2px; color: var(--muted); font-size: .63rem; letter-spacing: 0; }
     .stat.timer .stat-value { color: var(--coral); }
-    .typing-box { padding: 24px 24px 21px; border: 1px solid var(--line); border-radius: 16px; background: #fbfaf5; }
+    .typing-box { padding: 24px 24px 21px; border: 1px solid var(--line); border-radius: 16px; background: #f5fbfa; }
     .typing-label { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-bottom: 15px; color: var(--muted); font-family: var(--mono); font-size: .61rem; letter-spacing: .07em; }
+    .phrase-meta { display: inline-flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 5px 8px; }
     .typing-label .phrase-count { color: var(--coral); }
+    .phrase-difficulty { padding: 3px 6px; border-radius: 5px; background: var(--paper-deep); color: var(--success); font-size: .56rem; letter-spacing: .08em; }
+    .phrase-genre { padding: 3px 6px; border: 1px solid var(--line); border-radius: 5px; color: var(--muted); font-size: .54rem; letter-spacing: .06em; }
     .japanese-prompt { margin: 0 0 8px; font-size: 1.03rem; font-weight: 700; letter-spacing: .04em; line-height: 1.8; }
     .target-text { min-height: 52px; color: #a9aea5; font-family: var(--mono); font-size: clamp(.93rem, 1.8vw, 1.08rem); letter-spacing: .03em; line-height: 1.85; word-break: break-word; }
     .target-text span { border-radius: 3px; transition: color .12s ease, background .12s ease; }
@@ -140,7 +154,7 @@
     .input-wrap { position: relative; display: flex; align-items: center; margin-top: 18px; }
     .typing-input { width: 100%; min-height: 52px; padding: 0 49px 0 16px; border: 1px solid var(--line-strong); border-radius: 11px; outline: 0; background: var(--white); color: var(--ink); font-family: var(--mono); font-size: .9rem; transition: border-color .2s ease, box-shadow .2s ease; }
     .typing-input::placeholder { color: #a9aea5; font-family: var(--sans); font-size: .8rem; }
-    .typing-input:focus { border-color: var(--ink); box-shadow: 0 0 0 4px rgba(215, 239, 104, .35); }
+    .typing-input:focus { border-color: var(--success); box-shadow: 0 0 0 4px rgba(139, 222, 210, .35); }
     .typing-input:disabled { cursor: not-allowed; background: #f0eee7; }
     .input-key { position: absolute; right: 13px; display: grid; width: 25px; height: 25px; place-items: center; border: 1px solid var(--line); border-radius: 6px; color: var(--muted); font-family: var(--mono); font-size: .7rem; pointer-events: none; }
     .progress-track { height: 5px; margin: 18px 0 0; overflow: hidden; border-radius: 99px; background: var(--paper-deep); }
@@ -149,7 +163,7 @@
     .control-row { display: flex; align-items: center; gap: 13px; margin-top: 22px; }
     .primary-button, .secondary-button { min-height: 47px; border-radius: 99px; font-size: .78rem; font-weight: 800; transition: transform .2s ease, box-shadow .2s ease, background .2s ease; }
     .primary-button { display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-width: 158px; padding: 0 20px; border: 1px solid var(--ink); background: var(--ink); color: var(--white); }
-    .primary-button:hover:not(:disabled) { box-shadow: 0 8px 18px rgba(32, 37, 31, .17); transform: translateY(-2px); }
+    .primary-button:hover:not(:disabled) { box-shadow: 0 8px 18px rgba(9, 47, 53, .2); transform: translateY(-2px); }
     .primary-button:disabled { cursor: wait; opacity: .6; }
     .primary-button .arrow { font-size: 1.05rem; line-height: 1; }
     .secondary-button { padding: 0 17px; border: 1px solid var(--line-strong); background: transparent; color: var(--ink); }
@@ -162,10 +176,10 @@
     .side-card.profile { background: var(--lavender); }
     .side-card h3 { margin: 0 0 17px; font-size: .98rem; letter-spacing: -.03em; }
     .side-card label { display: block; margin-bottom: 6px; color: var(--muted); font-size: .64rem; font-weight: 800; letter-spacing: .11em; }
-    .alias-input { width: 100%; min-height: 41px; padding: 0 12px; border: 1px solid rgba(32, 37, 31, .25); border-radius: 9px; outline: 0; background: rgba(255, 253, 247, .58); color: var(--ink); font-size: .82rem; }
+    .alias-input { width: 100%; min-height: 41px; padding: 0 12px; border: 1px solid rgba(9, 47, 53, .25); border-radius: 9px; outline: 0; background: rgba(251, 255, 254, .58); color: var(--ink); font-size: .82rem; }
     .alias-input:focus { border-color: var(--ink); }
     .side-note { margin: 12px 0 0; color: var(--muted); font-size: .67rem; line-height: 1.65; }
-    .personal-best { display: flex; align-items: end; justify-content: space-between; margin-top: 22px; padding-top: 17px; border-top: 1px solid rgba(32, 37, 31, .15); }
+    .personal-best { display: flex; align-items: end; justify-content: space-between; margin-top: 22px; padding-top: 17px; border-top: 1px solid rgba(9, 47, 53, .15); }
     .personal-best span { color: var(--muted); font-size: .62rem; font-weight: 800; letter-spacing: .1em; }
     .personal-best strong { font-family: var(--mono); font-size: 1.55rem; letter-spacing: -.08em; line-height: 1; }
     .personal-best strong small { margin-left: 2px; color: var(--muted); font-size: .62rem; letter-spacing: 0; }
@@ -213,9 +227,9 @@
 
     .ranking-head > span { color: var(--muted); font-family: var(--mono); font-size: .6rem; letter-spacing: .08em; }
     .ranking-list { margin: 18px 0 0; padding: 0; list-style: none; }
-    .ranking-item { display: grid; grid-template-columns: 28px 1fr auto auto; gap: 9px; align-items: center; min-height: 42px; border-bottom: 1px solid rgba(32, 37, 31, .08); font-size: .75rem; }
+    .ranking-item { display: grid; grid-template-columns: 28px 1fr auto auto; gap: 9px; align-items: center; min-height: 42px; border-bottom: 1px solid rgba(9, 47, 53, .1); font-size: .75rem; }
     .ranking-item:last-child { border-bottom: 0; }
-    .ranking-item.current { margin-right: -8px; margin-left: -8px; padding-right: 8px; padding-left: 8px; border-radius: 8px; background: rgba(215, 239, 104, .32); }
+    .ranking-item.current { margin-right: -8px; margin-left: -8px; padding-right: 8px; padding-left: 8px; border-radius: 8px; background: rgba(139, 222, 210, .32); }
     .ranking-position { color: var(--muted); font-family: var(--mono); font-size: .68rem; }
     .ranking-position.top { color: var(--coral); font-size: .9rem; }
     .ranking-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -256,6 +270,8 @@
       .stat-value { font-size: 1.18rem; }
       .typing-box { padding: 18px 15px 16px; }
       .mode-row { align-items: start; flex-direction: column; gap: 9px; }
+      .difficulty-row { align-items: start; flex-direction: column; gap: 9px; }
+      .genre-row { align-items: start; flex-direction: column; gap: 9px; }
       .control-row { flex-wrap: wrap; }
       .shortcut { width: 100%; margin-left: 0; }
       .side-column { grid-template-columns: 1fr; }
@@ -292,9 +308,9 @@
     <main id="top">
       <section class="hero" aria-labelledby="hero-title">
         <div>
-          <p class="eyebrow">A LITTLE PRACTICE, EVERY DAY</p>
-          <h1 id="hero-title">指先で、<em>今日の自己ベスト</em>を。</h1>
-          <p class="hero-copy">ローマ字で文章を入力して、あなたのWPMを測ってみましょう。結果は平均値とランキングで振り返れます。</p>
+          <p class="eyebrow">TYPING GAME / 001</p>
+          <h1 id="hero-title">タイピングゲーム</h1>
+          <p class="hero-copy">制限時間内に文章を何個打てるか挑戦。WPM・正確率・ランキングで結果を比べられます。</p>
         </div>
         <div class="average-card" aria-label="コミュニティ平均WPM">
           <span class="average-label">COMMUNITY AVERAGE</span>
@@ -322,6 +338,30 @@
                 <button class="mode-button" type="button" data-time="60" role="tab" aria-selected="false">60s</button>
               </div>
             </div>
+            <div class="difficulty-row">
+              <span class="mode-label">TEXT DIFFICULTY</span>
+              <div class="difficulty-switch" role="tablist" aria-label="文章の難易度">
+                <button class="difficulty-button" type="button" data-level="all" role="tab" aria-selected="true">MIX</button>
+                <button class="difficulty-button" type="button" data-level="easy" role="tab" aria-selected="false">EASY</button>
+                <button class="difficulty-button" type="button" data-level="normal" role="tab" aria-selected="false">NORMAL</button>
+                <button class="difficulty-button" type="button" data-level="hard" role="tab" aria-selected="false">HARD</button>
+              </div>
+            </div>
+            <div class="genre-row">
+              <span class="mode-label">TEXT GENRE</span>
+              <label class="genre-select-wrap">
+                <span class="sr-only">文章のジャンル</span>
+                <select class="genre-select" id="genreSelect" aria-label="文章のジャンル">
+                  <option value="all">ALL GENRES / MIX</option>
+                  <option value="daily">DAILY / 日常</option>
+                  <option value="nature">NATURE / 自然</option>
+                  <option value="travel">TRAVEL / 旅</option>
+                  <option value="food">FOOD / 食</option>
+                  <option value="creative">CREATIVE / 創作</option>
+                  <option value="tech">TECH / テクノロジー</option>
+                </select>
+              </label>
+            </div>
 
             <div class="stats-grid" aria-live="polite" aria-label="現在のスコア">
               <div class="stat timer"><span class="stat-label">TIME LEFT</span><strong class="stat-value" id="timeLeft">00:30</strong></div>
@@ -331,15 +371,15 @@
             </div>
 
             <div class="typing-box">
-              <div class="typing-label"><span>TYPE THIS ROMAJI</span><span class="phrase-count" id="phraseCount">LINE 01</span></div>
+              <div class="typing-label"><span>TYPE THIS ROMAJI / SPACES OPTIONAL</span><span class="phrase-meta"><span class="phrase-count" id="phraseCount">LINE 01</span><span class="phrase-difficulty" id="phraseDifficulty">MIX</span><span class="phrase-genre" id="phraseGenre">ALL</span></span></div>
               <p class="japanese-prompt" id="japanesePrompt">小さな好奇心を、今日の一歩に変えてみよう。</p>
-              <div class="target-text" id="targetText" aria-label="入力するローマ字">chiisana koukishin o, kyou no ippo ni kaete miyou.</div>
+              <div class="target-text" id="targetText" aria-label="入力するローマ字">chiisanakoukishinwo,kyounoipponikaetemiyou.</div>
               <div class="input-wrap">
                 <input class="typing-input" id="typingInput" type="text" inputmode="latin" autocomplete="off" autocapitalize="off" spellcheck="false" disabled placeholder="ゲーム開始後、ここに入力…" aria-label="ローマ字入力欄">
                 <span class="input-key" aria-hidden="true">↵</span>
               </div>
               <div class="progress-track" aria-hidden="true"><span id="progressFill"></span></div>
-              <p class="typing-note">表示された文章のローマ字を入力してください。WPMは「正しく入力した5文字＝1 word」で計算します。</p>
+              <p class="typing-note">スペースは入力しなくてOK。かなごとの複数表記（例：し＝shi / si、ん＝n / nn）に対応しています。WPMは「正しく入力した5文字＝1 word」で計算します。</p>
             </div>
 
             <div class="control-row">
@@ -425,14 +465,130 @@
       const RANKING_KEY = 'sakurako-type-lab-ranking-v1';
       const PB_KEY = 'sakurako-type-lab-personal-best-v1';
       const ALIAS_KEY = 'sakurako-type-lab-alias-v1';
+      // Each kana has a small set of common romaji spellings. The matcher
+      // below walks all of them at once, so n/nn, shi/si, and other variants
+      // can be mixed freely in one round.
+      const ROMAJI_OPTIONS = {
+        'あ': ['a'], 'い': ['i'], 'う': ['u'], 'え': ['e'], 'お': ['o'],
+        'か': ['ka'], 'き': ['ki'], 'く': ['ku'], 'け': ['ke'], 'こ': ['ko'],
+        'さ': ['sa'], 'し': ['shi', 'si'], 'す': ['su'], 'せ': ['se'], 'そ': ['so'],
+        'た': ['ta'], 'ち': ['chi', 'ti'], 'つ': ['tsu', 'tu'], 'て': ['te'], 'と': ['to'],
+        'な': ['na'], 'に': ['ni'], 'ぬ': ['nu'], 'ね': ['ne'], 'の': ['no'],
+        'は': ['ha'], 'ひ': ['hi'], 'ふ': ['fu', 'hu'], 'へ': ['he'], 'ほ': ['ho'],
+        'ま': ['ma'], 'み': ['mi'], 'む': ['mu'], 'め': ['me'], 'も': ['mo'],
+        'や': ['ya'], 'ゆ': ['yu'], 'よ': ['yo'],
+        'ら': ['ra'], 'り': ['ri'], 'る': ['ru'], 'れ': ['re'], 'ろ': ['ro'],
+        'わ': ['wa'], 'を': ['wo', 'o'], 'ん': ['n', 'nn', "n'", 'xn'],
+        'が': ['ga'], 'ぎ': ['gi'], 'ぐ': ['gu'], 'げ': ['ge'], 'ご': ['go'],
+        'ざ': ['za'], 'じ': ['ji', 'zi'], 'ず': ['zu'], 'ぜ': ['ze'], 'ぞ': ['zo'],
+        'だ': ['da'], 'ぢ': ['ji', 'di', 'dzi'], 'づ': ['zu', 'du', 'dzu'], 'で': ['de'], 'ど': ['do'],
+        'ば': ['ba'], 'び': ['bi'], 'ぶ': ['bu'], 'べ': ['be'], 'ぼ': ['bo'],
+        'ぱ': ['pa'], 'ぴ': ['pi'], 'ぷ': ['pu'], 'ぺ': ['pe'], 'ぽ': ['po'],
+        'ゔ': ['vu', 'bu'],
+        'ぁ': ['xa', 'la'], 'ぃ': ['xi', 'li'], 'ぅ': ['xu', 'lu'], 'ぇ': ['xe', 'le'], 'ぉ': ['xo', 'lo'],
+        'ゃ': ['xya', 'lya'], 'ゅ': ['xyu', 'lyu'], 'ょ': ['xyo', 'lyo'],
+        'ゎ': ['xwa', 'lwa'], 'っ': ['xtsu', 'ltsu', 'ltu']
+      };
+      const DIGRAPH_OPTIONS = {
+        'きゃ': ['kya'], 'きゅ': ['kyu'], 'きょ': ['kyo'],
+        'しゃ': ['sha', 'sya'], 'しゅ': ['shu', 'syu'], 'しょ': ['sho', 'syo'], 'しぇ': ['she', 'sye'],
+        'ちゃ': ['cha', 'cya', 'tya'], 'ちゅ': ['chu', 'cyu', 'tyu'], 'ちょ': ['cho', 'cyo', 'tyo'], 'ちぇ': ['che', 'cye', 'tye'],
+        'にゃ': ['nya'], 'にゅ': ['nyu'], 'にょ': ['nyo'],
+        'ひゃ': ['hya'], 'ひゅ': ['hyu'], 'ひょ': ['hyo'],
+        'みゃ': ['mya'], 'みゅ': ['myu'], 'みょ': ['myo'],
+        'りゃ': ['rya'], 'りゅ': ['ryu'], 'りょ': ['ryo'],
+        'ぎゃ': ['gya'], 'ぎゅ': ['gyu'], 'ぎょ': ['gyo'],
+        'じゃ': ['ja', 'jya', 'zya'], 'じゅ': ['ju', 'jyu', 'zyu'], 'じょ': ['jo', 'jyo', 'zyo'], 'じぇ': ['je', 'jye', 'zye'],
+        'ぢゃ': ['dya', 'jya', 'zya'], 'ぢゅ': ['dyu', 'jyu', 'zyu'], 'ぢょ': ['dyo', 'jyo', 'zyo'],
+        'びゃ': ['bya'], 'びゅ': ['byu'], 'びょ': ['byo'],
+        'ぴゃ': ['pya'], 'ぴゅ': ['pyu'], 'ぴょ': ['pyo'],
+        'うぃ': ['wi'], 'うぇ': ['we'], 'うぉ': ['who', 'wo'],
+        'くぁ': ['kwa', 'qa', 'qwa'], 'くぃ': ['kwi', 'qi'], 'くぇ': ['kwe', 'qe'], 'くぉ': ['kwo', 'qo'],
+        'ぐぁ': ['gwa'], 'すぃ': ['swi'], 'ずぃ': ['zwi'],
+        'つぁ': ['tsa'], 'つぃ': ['tsi'], 'つぇ': ['tse'], 'つぉ': ['tso'],
+        'てぃ': ['thi', 'ti'], 'でぃ': ['dhi', 'di'], 'とぅ': ['twu', 'tu'], 'どぅ': ['dwu', 'du'],
+        'ふぁ': ['fa'], 'ふぃ': ['fi'], 'ふぇ': ['fe'], 'ふぉ': ['fo'], 'ふゅ': ['fyu'],
+        'ゔぁ': ['va'], 'ゔぃ': ['vi'], 'ゔぇ': ['ve'], 'ゔぉ': ['vo'], 'ゔゅ': ['vyu']
+      };
+
+      function uniqueOptions(options) {
+        return [...new Set(options.filter(Boolean))];
+      }
+
+      function tokenizeKana(kana) {
+        const chars = Array.from(kana);
+        const tokens = [];
+        for (let index = 0; index < chars.length; index += 1) {
+          const pair = `${chars[index]}${chars[index + 1] || ''}`;
+          if (DIGRAPH_OPTIONS[pair]) {
+            tokens.push(pair);
+            index += 1;
+          } else {
+            tokens.push(chars[index]);
+          }
+        }
+        return tokens;
+      }
+
+      function optionsForToken(token) {
+        if (DIGRAPH_OPTIONS[token]) return DIGRAPH_OPTIONS[token];
+        if (ROMAJI_OPTIONS[token]) return ROMAJI_OPTIONS[token];
+        if (token === '、') return [','];
+        if (token === '。') return ['.'];
+        if (token === '・') return ['/'];
+        if (token === 'ー') return ['-'];
+        return [String(token).toLowerCase()];
+      }
+
+      function buildSegments(kana) {
+        const tokens = tokenizeKana(kana);
+        return tokens.map((token, index) => {
+          let options = optionsForToken(token);
+          // Small tsu is typed by doubling the first consonant of the next
+          // syllable. Keep xtsu/ltsu forms too for standalone use.
+          if (token === 'っ' && tokens[index + 1]) {
+            const nextOptions = optionsForToken(tokens[index + 1]);
+            const doubled = nextOptions.filter((option) => option.length).map((option) => option[0]);
+            options = uniqueOptions([...doubled, ...options]);
+          }
+          options = uniqueOptions(options);
+          return { kana: token, options, display: options[0] };
+        });
+      }
+
+      function buildPhrase(jp, kana, difficulty = 'normal', genre = 'daily') {
+        const segments = buildSegments(kana);
+        return { jp, kana, difficulty, genre, segments, text: segments.map((segment) => segment.display).join('') };
+      }
+
       const phrases = [
-        { jp: '小さな好奇心を、今日の一歩に変えてみよう。', text: 'chiisana koukishin o, kyou no ippo ni kaete miyou.' },
-        { jp: 'アイデアは、試してみることで形になっていく。', text: 'aidea wa, tameshite miru koto de katachi ni natte iku.' },
-        { jp: '朝の光がカーテンをすり抜けて、静かな一日が始まる。', text: 'asa no hikari ga kaaten o surinukete, shizuka na ichinichi ga hajimaru.' },
-        { jp: '迷ったら、まず小さくつくってみる。', text: 'mayottara, mazu chiisaku tsukutte miru.' },
-        { jp: '好きなものを集めると、自分の輪郭が見えてくる。', text: 'suki na mono o atsumeru to, jibun no rinkaku ga miete kuru.' },
-        { jp: 'うまくいくまで、おもしろがる。', text: 'umaku iku made, omoshirogaru.' },
-        { jp: '言葉にできない気持ちも、ゆっくり育てていこう。', text: 'kotoba ni dekinai kimochi mo, yukkuri sodatete ikou.' }
+        buildPhrase('おはようございます。', 'おはようございます。', 'easy', 'daily'),
+        buildPhrase('今日はいい天気です。', 'きょうはいいてんきです。', 'easy', 'daily'),
+        buildPhrase('猫が窓辺で眠っている。', 'ねこがまどべでねむっている。', 'easy', 'nature'),
+        buildPhrase('ゆっくり深呼吸をする。', 'ゆっくりしんこきゅうをする。', 'easy', 'daily'),
+        buildPhrase('雨上がりの空に、淡い虹が浮かんでいる。', 'あめあがりのそらに、あわいにじがうかんでいる。', 'easy', 'nature'),
+        buildPhrase('荷物は軽く、好奇心は大きく持って出かけよう。', 'にもつはかるく、こうきしんはおおきくもってでかけよう。', 'easy', 'travel'),
+        buildPhrase('本を閉じたあとも、物語の余韻は残る。', 'ほんをとじたあとも、ものがたりのよいんはのこる。', 'easy', 'creative'),
+        buildPhrase('迷ったら、まず小さくつくってみる。', 'まよったら、まずちいさくつくってみる。', 'normal', 'creative'),
+        buildPhrase('うまくいくまで、おもしろがる。', 'うまくいくまで、おもしろがる。', 'normal', 'creative'),
+        buildPhrase('小さな好奇心を、今日の一歩に変えてみよう。', 'ちいさなこうきしんを、きょうのいっぽにかえてみよう。', 'normal', 'creative'),
+        buildPhrase('好きな音楽を聴きながら歩く。', 'すきなおんがくをききながらあるく。', 'normal', 'daily'),
+        buildPhrase('焼きたてのパンの香りが、朝の街に広がっていく。', 'やきたてのぱんのかおりが、あさのまちにひろがっていく。', 'normal', 'food'),
+        buildPhrase('知らない街の角を曲がると、新しい物語が始まる。', 'しらないまちのかどをまがると、あたらしいものがたりがはじまる。', 'normal', 'travel'),
+        buildPhrase('小さな画面の向こうにも、誰かの生活が続いている。', 'ちいさながめんのむこうにも、だれかのせいかつがつづいている。', 'normal', 'tech'),
+        buildPhrase('アイデアは、試してみることで形になっていく。', 'あいであは、ためしてみることでかたちになっていく。', 'normal', 'creative'),
+        buildPhrase('コードを一行変えるだけで、景色が軽やかに変わる。', 'こーどをいちぎょうかえるだけで、けしきがかろやかにかわる。', 'normal', 'tech'),
+        buildPhrase('朝の光がカーテンをすり抜けて、静かな一日が始まる。', 'あさのひかりがかーてんをすりぬけて、しずかないちにちがはじまる。', 'hard', 'nature'),
+        buildPhrase('新しい道を選ぶと、見える景色が変わる。', 'あたらしいみちをえらぶと、みえるけしきがかわる。', 'hard', 'travel'),
+        buildPhrase('言葉にできない気持ちも、ゆっくり育てていこう。', 'ことばにできないきもちも、ゆっくりそだてていこう。', 'hard', 'creative'),
+        buildPhrase('季節の野菜をゆっくり煮込む時間が好きだ。', 'きせつのやさいをゆっくりにこむじかんがすきだ。', 'hard', 'food'),
+        buildPhrase('複雑な問題ほど、問いを分けると輪郭が見えてくる。', 'ふくざつなもんだいほど、といをわけるとりんかくがみえてくる。', 'hard', 'tech'),
+        buildPhrase('見慣れた景色の中に、まだ知らない発見が隠れている。', 'みなれたけしきのなかに、まだしらないはっけんがかくれている。', 'hard', 'nature'),
+        buildPhrase('遠回りに見える選択が、あとで大切な近道になることもある。', 'とおまわりにみえるせんたくが、あとでたいせつなちかみちになることもある。', 'hard', 'travel'),
+        buildPhrase('うまくいかない日も、学びは静かに積み重なっている。', 'うまくいかないひも、まなびはしずかにつみかさなっている。', 'hard', 'creative'),
+        buildPhrase('風の音に耳を澄ますと、森のリズムが聞こえてくる。', 'かぜのおとにみみをすますと、もりのりずむがきこえてくる。', 'hard', 'nature'),
+        buildPhrase('便利さの裏側にある仕組みを、丁寧に想像してみる。', 'べんりさのうらがわにあるしくみを、ていねいにそうぞうしてみる。', 'hard', 'tech'),
+        buildPhrase('音のない余白があるから、言葉は深く届いていく。', 'おとのないよはくがあるから、ことばはふかくとどいていく。', 'hard', 'creative')
       ];
       const seedRanking = [
         { name: 'Mika', wpm: 74, accuracy: 98 },
@@ -443,6 +599,8 @@
         { name: 'Haru', wpm: 39, accuracy: 91 },
         { name: 'Nagi', wpm: 32, accuracy: 90 }
       ];
+      const difficultyLabels = { all: 'MIX', easy: 'EASY', normal: 'NORMAL', hard: 'HARD' };
+      const genreLabels = { all: 'ALL', daily: 'DAILY', nature: 'NATURE', travel: 'TRAVEL', food: 'FOOD', creative: 'CREATIVE', tech: 'TECH' };
 
       const els = {
         alias: document.getElementById('aliasInput'),
@@ -455,6 +613,9 @@
         liveAccuracy: document.getElementById('liveAccuracy'),
         liveStreak: document.getElementById('liveStreak'),
         phraseCount: document.getElementById('phraseCount'),
+        phraseDifficulty: document.getElementById('phraseDifficulty'),
+        phraseGenre: document.getElementById('phraseGenre'),
+        genreSelect: document.getElementById('genreSelect'),
         japanesePrompt: document.getElementById('japanesePrompt'),
         targetText: document.getElementById('targetText'),
         typingInput: document.getElementById('typingInput'),
@@ -479,6 +640,8 @@
 
       const state = {
         mode: 30,
+        difficulty: 'all',
+        genre: 'all',
         running: false,
         startedAt: 0,
         timerId: null,
@@ -486,7 +649,7 @@
         timeLeft: 30,
         phraseNumber: 0,
         currentPhrase: phrases[0],
-        targetChars: Array.from(phrases[0].text),
+        targetSegments: phrases[0].segments,
         committedCorrect: 0,
         committedErrors: 0,
         currentCorrect: 0,
@@ -542,45 +705,143 @@
         resetGame();
       }
 
+      function setDifficulty(difficulty) {
+        state.difficulty = difficulty;
+        document.querySelectorAll('.difficulty-button').forEach((button) => {
+          button.setAttribute('aria-selected', String(button.dataset.level === difficulty));
+        });
+        resetGame();
+      }
+
+      function setGenre(genre) {
+        state.genre = genre;
+        els.genreSelect.value = genre;
+        resetGame();
+      }
+
+      function phrasePool() {
+        const matches = phrases.filter((phrase) => {
+          const matchesDifficulty = state.difficulty === 'all' || phrase.difficulty === state.difficulty;
+          const matchesGenre = state.genre === 'all' || phrase.genre === state.genre;
+          return matchesDifficulty && matchesGenre;
+        });
+        // Some difficulty/genre combinations may not have a dedicated line;
+        // keep the selected genre playable instead of showing a blank screen.
+        if (matches.length) return matches;
+        const genreMatches = phrases.filter((phrase) => state.genre === 'all' || phrase.genre === state.genre);
+        return genreMatches.length ? genreMatches : phrases;
+      }
+
       function choosePhrase() {
-        state.currentPhrase = phrases[state.phraseNumber % phrases.length];
+        const pool = phrasePool();
+        state.currentPhrase = pool[state.phraseNumber % pool.length];
         state.phraseNumber += 1;
-        state.targetChars = Array.from(state.currentPhrase.text);
+        state.targetSegments = state.currentPhrase.segments;
         state.currentCorrect = 0;
         state.currentErrors = 0;
         state.transitioning = false;
         els.typingInput.value = '';
         els.japanesePrompt.textContent = state.currentPhrase.jp;
         els.phraseCount.textContent = `LINE ${String(state.phraseNumber).padStart(2, '0')}`;
-        renderTarget([]);
+        els.phraseDifficulty.textContent = difficultyLabels[state.currentPhrase.difficulty] || 'MIX';
+        els.phraseGenre.textContent = genreLabels[state.currentPhrase.genre] || 'ALL';
+        renderTarget(matchInput('', state.targetSegments));
       }
 
-      function renderTarget(typedChars) {
+      function normalizeInput(value) {
+        return String(value || '').normalize('NFKC').toLowerCase().replace(/\s+/g, '');
+      }
+
+      function closeStates(states, segments) {
+        const queue = states.slice();
+        const result = [];
+        const seen = new Set();
+        while (queue.length) {
+          const stateItem = queue.shift();
+          const key = `${stateItem.segment}:${stateItem.option}:${stateItem.offset}`;
+          if (seen.has(key)) continue;
+          seen.add(key);
+          if (stateItem.segment >= segments.length) {
+            result.push(stateItem);
+            continue;
+          }
+          const option = segments[stateItem.segment].options[stateItem.option];
+          if (stateItem.offset >= option.length) {
+            const nextSegment = stateItem.segment + 1;
+            if (nextSegment >= segments.length) {
+              queue.push({ segment: segments.length, option: 0, offset: 0 });
+            } else {
+              segments[nextSegment].options.forEach((unusedOption, optionIndex) => {
+                queue.push({ segment: nextSegment, option: optionIndex, offset: 0 });
+              });
+            }
+          } else {
+            result.push(stateItem);
+          }
+        }
+        return result;
+      }
+
+      function advanceStates(states, character, segments) {
+        const next = [];
+        closeStates(states, segments).forEach((stateItem) => {
+          if (stateItem.segment >= segments.length) return;
+          const option = segments[stateItem.segment].options[stateItem.option];
+          if (option[stateItem.offset] === character) {
+            next.push({ segment: stateItem.segment, option: stateItem.option, offset: stateItem.offset + 1 });
+          }
+        });
+        return closeStates(next, segments);
+      }
+
+      function matchInput(value, segments) {
+        const typed = normalizeInput(value);
+        const firstStates = segments.length
+          ? segments[0].options.map((unusedOption, optionIndex) => ({ segment: 0, option: optionIndex, offset: 0 }))
+          : [{ segment: 0, option: 0, offset: 0 }];
+        let states = closeStates(firstStates, segments);
+        let validStates = states;
+        let validLength = 0;
+        let invalid = false;
+        for (const character of Array.from(typed)) {
+          const next = advanceStates(states, character, segments);
+          if (!next.length) {
+            invalid = true;
+            break;
+          }
+          validLength += 1;
+          states = next;
+          validStates = states;
+        }
+        const complete = !invalid && states.some((stateItem) => stateItem.segment >= segments.length);
+        return { typed, validLength, validStates, invalid, complete };
+      }
+
+      function renderTarget(match) {
         els.targetText.textContent = '';
-        state.targetChars.forEach((targetChar, index) => {
+        const segmentPositions = match.validStates.map((stateItem) => {
+          if (stateItem.segment >= state.targetSegments.length) return state.targetSegments.length;
+          const option = state.targetSegments[stateItem.segment].options[stateItem.option];
+          return stateItem.segment + (option.length ? stateItem.offset / option.length : 0);
+        });
+        const furthest = Math.min(state.targetSegments.length, Math.max(0, ...segmentPositions));
+        const completedSegments = match.complete ? state.targetSegments.length : Math.floor(furthest);
+        state.targetSegments.forEach((segment, index) => {
           const span = document.createElement('span');
-          const typedChar = typedChars[index];
-          span.textContent = targetChar;
-          if (typedChar !== undefined) span.className = typedChar === targetChar ? 'correct' : 'incorrect';
-          else if (index === typedChars.length) span.className = 'current';
+          span.textContent = segment.display;
+          if (index < completedSegments) span.className = 'correct';
+          else if (index === completedSegments && match.invalid) span.className = 'incorrect';
+          else if (index === completedSegments) span.className = 'current';
           else span.className = 'upcoming';
           els.targetText.appendChild(span);
         });
-        const progress = state.targetChars.length ? Math.min(100, (typedChars.length / state.targetChars.length) * 100) : 0;
+        const progress = state.targetSegments.length ? Math.min(100, (furthest / state.targetSegments.length) * 100) : 0;
         els.progressFill.style.width = `${progress}%`;
       }
 
       function currentInputStats() {
-        const chars = Array.from(els.typingInput.value).slice(0, state.targetChars.length);
-        let correct = 0;
-        let errors = 0;
-        for (let index = 0; index < chars.length; index += 1) {
-          if (chars[index] === state.targetChars[index]) correct += 1;
-          else errors += 1;
-        }
-        let trailing = 0;
-        for (let index = chars.length - 1; index >= 0 && chars[index] === state.targetChars[index]; index -= 1) trailing += 1;
-        return { chars, correct, errors, trailing };
+        const match = matchInput(els.typingInput.value, state.targetSegments);
+        return { ...match, chars: Array.from(match.typed), correct: match.validLength, errors: Array.from(match.typed).length - match.validLength, trailing: match.validLength };
       }
 
       function getTotals() {
@@ -615,14 +876,14 @@
       function handleInput() {
         if (!state.running || state.transitioning) return;
         const stats = currentInputStats();
-        if (els.typingInput.value !== stats.chars.join('')) els.typingInput.value = stats.chars.join('');
+        if (els.typingInput.value !== stats.typed) els.typingInput.value = stats.typed;
         state.currentCorrect = stats.correct;
         state.currentErrors = stats.errors;
         state.bestStreak = Math.max(state.bestStreak, stats.trailing);
-        renderTarget(stats.chars);
+        renderTarget(stats);
         updateLiveStats();
 
-        if (stats.chars.length >= state.targetChars.length) {
+        if (stats.complete) {
           state.committedCorrect += stats.correct;
           state.committedErrors += stats.errors;
           state.currentCorrect = 0;
@@ -790,6 +1051,12 @@
         document.querySelectorAll('.mode-button').forEach((button) => button.addEventListener('click', () => {
           if (!state.running) setMode(Number(button.dataset.time));
         }));
+        document.querySelectorAll('.difficulty-button').forEach((button) => button.addEventListener('click', () => {
+          if (!state.running) setDifficulty(button.dataset.level);
+        }));
+        els.genreSelect.addEventListener('change', () => {
+          if (!state.running) setGenre(els.genreSelect.value);
+        });
         els.startButton.addEventListener('click', startGame);
         els.resetButton.addEventListener('click', resetGame);
         let composing = false;
