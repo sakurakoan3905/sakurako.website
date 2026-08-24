@@ -89,7 +89,7 @@
     }
     .eyebrow { display: inline-flex; align-items: center; gap: 9px; }
     .eyebrow::before { width: 27px; height: 2px; content: ""; background: var(--coral); }
-    h1 { max-width: 780px; margin: 0; font-size: clamp(2.35rem, 5vw, 3.8rem); font-weight: 800; letter-spacing: -.09em; line-height: 1.13; }
+    h1 { max-width: 780px; margin: 0; font-size: clamp(2.35rem, 5vw, 3.8rem); font-weight: 800; letter-spacing: -.09em; line-height: 1.13; white-space: nowrap; }
     h1 em { position: relative; display: inline-block; color: var(--coral); font-family: var(--display); font-style: normal; font-weight: 600; letter-spacing: -.13em; }
     h1 em::after { position: absolute; right: 2%; bottom: 4px; left: 3%; height: 10px; z-index: -1; content: ""; background: var(--lime); transform: rotate(-2deg); }
     .hero-copy { max-width: 640px; margin: 12px 0 0; color: var(--muted); font-size: .84rem; letter-spacing: .025em; }
@@ -150,13 +150,13 @@
     .phrase-difficulty { padding: 3px 6px; border-radius: 5px; background: var(--paper-deep); color: var(--success); font-size: .56rem; letter-spacing: .08em; }
     .phrase-genre { padding: 3px 6px; border: 1px solid var(--line); border-radius: 5px; color: var(--muted); font-size: .54rem; letter-spacing: .06em; }
     .japanese-prompt { margin: 0 0 8px; font-size: 1.03rem; font-weight: 700; letter-spacing: .04em; line-height: 1.8; }
-    .target-text { min-height: 52px; color: #a9aea5; font-family: var(--mono); font-size: clamp(.93rem, 1.8vw, 1.08rem); letter-spacing: .03em; line-height: 1.85; word-break: break-word; }
+    .target-text { display: block; width: 100%; min-height: 52px; padding: 9px 16px; overflow-wrap: anywhere; border: 1px solid var(--line-strong); border-radius: 11px; background: var(--white); color: #a9aea5; font-family: var(--mono); font-size: clamp(.93rem, 1.8vw, 1.08rem); letter-spacing: .03em; line-height: 1.65; word-break: break-word; }
     .target-text span { border-radius: 3px; transition: none; }
     .target-text span.correct { color: var(--success); }
     .target-text span.incorrect { color: var(--danger); background: rgba(214, 94, 85, .15); }
     .target-text span.current { color: var(--ink); background: var(--lime); box-shadow: 0 0 0 2px var(--lime); }
     .target-text span.upcoming { color: #a9aea5; }
-    .input-wrap { position: relative; display: flex; align-items: center; margin-top: 18px; }
+    .input-wrap { position: relative; display: flex; align-items: center; width: 100%; margin-top: 10px; }
     .typing-input { width: 100%; min-height: 52px; padding: 0 49px 0 16px; border: 1px solid var(--line-strong); border-radius: 11px; outline: 0; background: var(--white); color: var(--ink); font-family: var(--mono); font-size: .9rem; transition: border-color .2s ease, box-shadow .2s ease; }
     .typing-input::placeholder { color: #a9aea5; font-family: var(--sans); font-size: .8rem; }
     .typing-input:focus { border-color: var(--success); box-shadow: 0 0 0 4px rgba(139, 222, 210, .35); }
