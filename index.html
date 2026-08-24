@@ -30,6 +30,7 @@
 
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
+    [hidden] { display: none !important; }
     body {
       margin: 0;
       color: var(--ink);
@@ -103,7 +104,7 @@
     .mini-track { position: relative; z-index: 1; height: 5px; margin-top: 18px; overflow: hidden; border-radius: 99px; background: rgba(255, 253, 247, .16); }
     .mini-track span { display: block; width: 56%; height: 100%; border-radius: inherit; background: var(--lime); }
 
-    .game-layout { display: grid; grid-template-columns: minmax(0, 1fr) 272px; gap: 18px; align-items: start; }
+    .game-layout { display: grid; grid-template-columns: minmax(0, 1fr) 272px; gap: 18px; align-items: start; margin-top: 28px; }
     .game-card, .side-card, .result-card, .ranking-card { border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--white); }
     .game-card { overflow: hidden; box-shadow: var(--shadow); }
     .game-head { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 24px 28px 20px; border-bottom: 1px solid var(--line); }
@@ -156,6 +157,11 @@
     .target-text span.incorrect { color: var(--danger); background: rgba(214, 94, 85, .15); }
     .target-text span.current { color: var(--ink); background: var(--lime); box-shadow: 0 0 0 2px var(--lime); }
     .target-text span.upcoming { color: #a9aea5; }
+    .typed-feedback { display: flex; flex-wrap: wrap; min-height: 24px; margin-top: 9px; padding: 5px 9px; border-radius: 7px; background: rgba(220, 234, 231, .52); color: var(--muted); font-family: var(--mono); font-size: .78rem; letter-spacing: .04em; line-height: 1.35; word-break: break-all; }
+    .typed-feedback:empty { display: none; }
+    .typed-feedback span { border-radius: 3px; }
+    .typed-feedback span.typed-correct { color: var(--success); }
+    .typed-feedback span.typed-incorrect { color: var(--danger); background: rgba(201, 95, 91, .18); box-shadow: 0 0 0 1px rgba(201, 95, 91, .16); }
     .input-wrap { position: relative; display: flex; align-items: center; width: 100%; margin-top: 10px; }
     .typing-input { width: 100%; min-height: 52px; padding: 0 49px 0 16px; border: 1px solid var(--line-strong); border-radius: 11px; outline: 0; background: var(--white); color: var(--ink); font-family: var(--mono); font-size: .9rem; transition: border-color .2s ease, box-shadow .2s ease; }
     .typing-input::placeholder { color: #a9aea5; font-family: var(--sans); font-size: .8rem; }
@@ -254,6 +260,33 @@
     .footer-links { display: flex; gap: 18px; }
     .footer-links a:hover { color: var(--coral); }
 
+    .modal-open { overflow: hidden; }
+    .result-modal { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: 24px; }
+    .modal-backdrop { position: absolute; inset: 0; background: rgba(4, 30, 35, .76); backdrop-filter: blur(7px); }
+    .modal-dialog { position: relative; width: min(100%, 600px); overflow: hidden; padding: clamp(31px, 6vw, 58px); border: 1px solid rgba(139, 222, 210, .38); border-radius: 28px; background: var(--ink); color: var(--white); box-shadow: 0 30px 100px rgba(0, 20, 25, .38); }
+    .modal-dialog::before { position: absolute; top: -150px; right: -120px; width: 330px; height: 330px; border: 1px solid rgba(139, 222, 210, .48); border-radius: 50%; content: ""; }
+    .modal-dialog::after { position: absolute; right: 28%; bottom: -90px; width: 160px; height: 160px; border-radius: 50%; content: ""; background: rgba(36, 123, 118, .48); }
+    .modal-close { position: absolute; top: 17px; right: 18px; z-index: 1; display: grid; width: 35px; height: 35px; place-items: center; border: 1px solid rgba(251, 255, 254, .35); border-radius: 50%; background: transparent; color: var(--white); font-size: 1.15rem; line-height: 1; transition: background .2s ease; }
+    .modal-close:hover { background: rgba(251, 255, 254, .14); }
+    .modal-content { position: relative; z-index: 1; }
+    .modal-kicker { margin: 0 0 9px; color: var(--lime); font-family: var(--mono); font-size: .66rem; font-weight: 700; letter-spacing: .16em; }
+    .modal-dialog h2 { margin: 0; font-size: clamp(1.75rem, 5vw, 2.5rem); letter-spacing: -.06em; line-height: 1.2; }
+    .modal-score { display: flex; align-items: baseline; gap: 12px; margin-top: 29px; }
+    .modal-score strong { font-family: var(--mono); font-size: clamp(4.2rem, 16vw, 7rem); letter-spacing: -.13em; line-height: .9; }
+    .modal-score span { color: rgba(251, 255, 254, .68); font-family: var(--mono); font-size: .86rem; }
+    .modal-message { max-width: 430px; margin: 18px 0 0; color: rgba(251, 255, 254, .83); font-size: .85rem; line-height: 1.85; }
+    .modal-message strong { color: var(--lime); }
+    .modal-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 28px; padding-top: 19px; border-top: 1px solid rgba(251, 255, 254, .2); }
+    .modal-metric span { display: block; color: rgba(251, 255, 254, .6); font-size: .61rem; font-weight: 700; letter-spacing: .11em; }
+    .modal-metric strong { display: block; margin-top: 4px; font-family: var(--mono); font-size: 1.25rem; letter-spacing: -.06em; }
+    .modal-metric strong small { margin-left: 2px; color: rgba(251, 255, 254, .6); font-size: .6rem; letter-spacing: 0; }
+    .modal-actions { display: flex; flex-wrap: wrap; gap: 11px; margin-top: 31px; }
+    .modal-primary, .modal-secondary { min-height: 45px; padding: 0 17px; border-radius: 99px; font-size: .73rem; font-weight: 800; transition: transform .2s ease, background .2s ease; }
+    .modal-primary { border: 1px solid var(--lime); background: var(--lime); color: var(--ink); }
+    .modal-secondary { border: 1px solid rgba(251, 255, 254, .34); background: transparent; color: var(--white); }
+    .modal-primary:hover, .modal-secondary:hover { transform: translateY(-2px); }
+    .modal-secondary:hover { background: rgba(251, 255, 254, .12); }
+
     @media (max-width: 900px) {
       .hero { grid-template-columns: 1fr 245px; gap: 28px; }
       .game-layout { grid-template-columns: 1fr; }
@@ -268,6 +301,7 @@
       .hero { align-items: start; flex-direction: column; gap: 20px; padding: 30px 0 28px; }
       h1 { font-size: clamp(2.35rem, 12vw, 3.6rem); }
       .average-card { max-width: 290px; }
+      .game-layout { margin-top: 16px; }
       .game-head { align-items: start; flex-direction: column; gap: 10px; padding: 21px 19px 17px; }
       .game-content { padding: 21px 19px 23px; }
       .stats-grid { gap: 6px; margin-bottom: 20px; }
@@ -288,6 +322,11 @@
       .result-main-stat strong { font-size: 3.4rem; }
       .contact-banner { align-items: start; flex-direction: column; margin-top: 76px; padding: 27px 22px; }
       footer { align-items: start; flex-direction: column; gap: 13px; }
+      .result-modal { padding: 15px; }
+      .modal-dialog { padding: 30px 23px 25px; border-radius: 22px; }
+      .modal-score { margin-top: 23px; }
+      .modal-metrics { gap: 7px; }
+      .modal-actions { margin-top: 25px; }
     }
     @media (max-width: 385px) {
       .stats-grid { grid-template-columns: repeat(2, 1fr); }
@@ -312,25 +351,12 @@
     </header>
 
     <main id="top">
-      <section class="hero" aria-labelledby="hero-title">
-        <div>
-          <p class="eyebrow">PLAY / TYPE LAB</p>
-          <h1 id="hero-title">ゲーム</h1>
-        </div>
-        <div class="average-card" aria-label="コミュニティ平均WPM">
-          <span class="average-label">COMMUNITY AVERAGE</span>
-          <div class="average-number"><strong id="heroAverage">43</strong><span>WPM</span></div>
-          <p class="average-note">みんなの平均 / 43 WPM · 正確率 94%</p>
-          <div class="mini-track" aria-hidden="true"><span></span></div>
-        </div>
-      </section>
-
       <section class="game-layout" id="game" aria-labelledby="game-title">
         <div class="game-card">
           <div class="game-head">
             <div>
               <p class="card-kicker">01 / START A ROUND</p>
-              <h2 id="game-title">Type the line below.</h2>
+              <h2 id="game-title">Type the lines below.</h2>
             </div>
             <span class="game-state" id="gameState" data-state="ready">READY TO PLAY</span>
           </div>
@@ -364,6 +390,10 @@
                   <option value="food">FOOD / 食</option>
                   <option value="creative">CREATIVE / 創作</option>
                   <option value="tech">TECH / テクノロジー</option>
+                  <option value="sports">SPORTS / スポーツ</option>
+                  <option value="music">MUSIC / 音楽</option>
+                  <option value="science">SCIENCE / 科学</option>
+                  <option value="study">STUDY / 学び</option>
                 </select>
               </label>
             </div>
@@ -387,11 +417,12 @@
               <p class="japanese-prompt" id="japanesePrompt">小さな好奇心を、今日の一歩に変えてみよう。</p>
               <div class="target-text" id="targetText" aria-label="入力するローマ字">chiisanakoukishinwo,kyounoipponikaetemiyou.</div>
               <div class="input-wrap">
-                <input class="typing-input" id="typingInput" type="text" inputmode="latin" autocomplete="off" autocapitalize="off" spellcheck="false" disabled placeholder="ゲーム開始後、ここに入力…" aria-label="ローマ字入力欄">
+                <input class="typing-input" id="typingInput" type="text" inputmode="latin" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" disabled placeholder="ゲーム開始後、ここに入力…" aria-label="ローマ字入力欄">
                 <span class="input-key" aria-hidden="true">↵</span>
               </div>
+              <div class="typed-feedback" id="typedFeedback" aria-label="入力した文字の正誤"></div>
               <div class="progress-track" aria-hidden="true"><span id="progressFill"></span></div>
-              <p class="typing-note" id="typingNote">スペースは入力しなくてOK。かなごとの複数表記（例：し＝shi / si、ん＝n / nn）に対応しています。WPMは「正しく入力した5文字＝1 word」で計算します。</p>
+              <p class="typing-note" id="typingNote">スペースは入力しなくてOK。かなごとの複数表記（例：し＝shi / si、ん＝n / nn）に対応しています。ミスしてもそのまま続けられます。WPMは「正しく入力した5文字＝1 word」で計算します。</p>
             </div>
 
             <div class="control-row">
@@ -462,6 +493,28 @@
       </section>
     </main>
 
+    <div class="result-modal" id="resultModal" hidden>
+      <div class="modal-backdrop" data-modal-close></div>
+      <section class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <button class="modal-close" id="modalClose" type="button" aria-label="結果を閉じる">×</button>
+        <div class="modal-content">
+          <p class="modal-kicker" id="modalKicker">ROUND COMPLETE</p>
+          <h2 id="modalTitle">Nice work.</h2>
+          <div class="modal-score"><strong id="modalWpm">0</strong><span>WPM</span></div>
+          <p class="modal-message" id="modalMessage"></p>
+          <div class="modal-metrics">
+            <div class="modal-metric"><span>ACCURACY</span><strong id="modalAccuracy">0<small>%</small></strong></div>
+            <div class="modal-metric"><span>RIGHT CHARS</span><strong id="modalChars">0</strong></div>
+            <div class="modal-metric"><span>ERRORS</span><strong id="modalErrors">0</strong></div>
+          </div>
+          <div class="modal-actions">
+            <button class="modal-primary" id="modalRetry" type="button">もう一度プレイ ↗</button>
+            <button class="modal-secondary" id="modalViewResults" type="button">結果とランキングを見る ↓</button>
+          </div>
+        </div>
+      </section>
+    </div>
+
     <footer>
       <span>© <span id="year">2026</span> SAKURAKO TYPE LAB.</span>
       <div class="footer-links"><a href="#game">PLAY</a><a href="#ranking">RANKING</a></div>
@@ -524,7 +577,7 @@
       };
 
       function uniqueOptions(options) {
-        return [...new Set(options.filter(Boolean))];
+        return [...new Set(options.filter((option) => option !== null && option !== undefined))];
       }
 
       function tokenizeKana(kana) {
@@ -545,8 +598,10 @@
       function optionsForToken(token) {
         if (DIGRAPH_OPTIONS[token]) return DIGRAPH_OPTIONS[token];
         if (ROMAJI_OPTIONS[token]) return ROMAJI_OPTIONS[token];
-        if (token === '、') return [','];
-        if (token === '。') return ['.'];
+        // Punctuation is shown as part of the sample, but is optional while
+        // typing so the player can keep a comfortable rhythm.
+        if (token === '、') return ['', ','];
+        if (token === '。') return ['', '.'];
         if (token === '・') return ['/'];
         if (token === 'ー') return ['-'];
         return [String(token).toLowerCase()];
@@ -564,7 +619,7 @@
             options = uniqueOptions([...doubled, ...options]);
           }
           options = uniqueOptions(options);
-          return { kana: token, options, display: options[0] };
+          return { kana: token, options, display: options.find((option) => option.length) || '' };
         });
       }
 
@@ -615,7 +670,35 @@
         buildPhrase('うまくいかない日も、学びは静かに積み重なっている。', 'うまくいかないひも、まなびはしずかにつみかさなっている。', 'hard', 'creative'),
         buildPhrase('風の音に耳を澄ますと、森のリズムが聞こえてくる。', 'かぜのおとにみみをすますと、もりのりずむがきこえてくる。', 'hard', 'nature'),
         buildPhrase('便利さの裏側にある仕組みを、丁寧に想像してみる。', 'べんりさのうらがわにあるしくみを、ていねいにそうぞうしてみる。', 'hard', 'tech'),
-        buildPhrase('音のない余白があるから、言葉は深く届いていく。', 'おとのないよはくがあるから、ことばはふかくとどいていく。', 'hard', 'creative')
+        buildPhrase('音のない余白があるから、言葉は深く届いていく。', 'おとのないよはくがあるから、ことばはふかくとどいていく。', 'hard', 'creative'),
+        buildPhrase('目覚まし時計より少し早く目が覚めた。', 'めざましどけいよりすこしはやくめがさめた。', 'easy', 'daily'),
+        buildPhrase('帰り道に牛乳を買って帰る。', 'かえりみちにぎゅうにゅうをかってかえる。', 'easy', 'daily'),
+        buildPhrase('机の上を片づけると気分も軽くなる。', 'つくえのうえをかたづけるときぶんもかるくなる。', 'normal', 'daily'),
+        buildPhrase('冷たい水を一杯飲んでから始めよう。', 'つめたいみずをいっぱいのんでからはじめよう。', 'easy', 'food'),
+        buildPhrase('週末は新しいレシピを試す。', 'しゅうまつはあたらしいれしぴをためす。', 'normal', 'food'),
+        buildPhrase('スパイスの組み合わせで味の印象が変わる。', 'すぱいすのくみあわせであじのいんしょうがかわる。', 'hard', 'food'),
+        buildPhrase('窓を開けると潮の香りがした。', 'まどをあけるとしおのかおりがした。', 'normal', 'nature'),
+        buildPhrase('月明かりが水面に細い道を描いている。', 'つきあかりがみなもにほそいみちをえがいている。', 'hard', 'nature'),
+        buildPhrase('渡り鳥の群れが夕焼けの空を横切った。', 'わたりどりのむれがゆうやけのそらをよこぎった。', 'hard', 'nature'),
+        buildPhrase('駅の案内板を見ながら次の列車を探す。', 'えきのあんないばんをみながらつぎのれっしゃをさがす。', 'normal', 'travel'),
+        buildPhrase('小さな港町で地図にない店を見つけた。', 'ちいさなみなとまちでちずにないみせをみつけた。', 'normal', 'travel'),
+        buildPhrase('列車の窓から見える景色が少しずつ変わる。', 'れっしゃのまどからみえるけしきがすこしずつかわる。', 'hard', 'travel'),
+        buildPhrase('白い紙に最初の線を引く。', 'しろいかみにさいしょのせんをひく。', 'easy', 'creative'),
+        buildPhrase('音楽を止めると部屋の静けさに気づく。', 'おんがくをとめるとへやのしずけさにきづく。', 'normal', 'creative'),
+        buildPhrase('異なる視点を並べると物語の奥行きが増していく。', 'ことなるしてんをならべるとものがたりのおくゆきがましていく。', 'hard', 'creative'),
+        buildPhrase('スマートフォンを置いて目の前の会話に集中する。', 'すまーとふぉんをおいてめのまえのかいわにしゅうちゅうする。', 'normal', 'tech'),
+        buildPhrase('データを整理すると次の課題が見つかる。', 'でーたをせいりするとつぎのかだいがみつかる。', 'normal', 'tech'),
+        buildPhrase('小さな実験を繰り返すと仮説の精度が上がる。', 'ちいさなじっけんをくりかえすとかせつのせいどがあがる。', 'hard', 'tech'),
+        buildPhrase('朝のストレッチで体を目覚めさせる。', 'あさのすとれっちでからだをめざめさせる。', 'easy', 'sports'),
+        buildPhrase('ボールの弾む音が体育館に響く。', 'ぼーるのはずむおとがたいいくかんにひびく。', 'normal', 'sports'),
+        buildPhrase('チームで声を掛け合うと最後まで集中できる。', 'ちーむでこえをかけあうとさいごまでしゅうちゅうできる。', 'hard', 'sports'),
+        buildPhrase('好きな曲を一曲だけ聴く。', 'すきなきょくをいっきょくだけきく。', 'easy', 'music'),
+        buildPhrase('リズムに合わせて足取りが軽くなる。', 'りずむにあわせてあしどりがかるくなる。', 'normal', 'music'),
+        buildPhrase('静かな旋律が記憶の奥から景色を呼び起こす。', 'しずかなせんりつがきおくのおくからけしきをよびおこす。', 'hard', 'music'),
+        buildPhrase('星の光は長い時間を旅して届く。', 'ほしのひかりはながいじかんをたびしてとどく。', 'normal', 'science'),
+        buildPhrase('観測した数字を比べると見えない変化がわかる。', 'かんそくしたすうじをくらべるとみえないへんかがわかる。', 'hard', 'science'),
+        buildPhrase('新しい言葉をノートに書き留める。', 'あたらしいことばをのーとにかきとめる。', 'normal', 'study'),
+        buildPhrase('問いを丁寧に言い換えると考えが整理される。', 'といをていねいにいいかえるとかんがえがせいりされる。', 'hard', 'study')
       ];
       const englishPhrases = [
         buildEnglishPhrase('おはよう。', 'Good morning.', 'easy', 'daily'),
@@ -642,7 +725,35 @@
         buildEnglishPhrase('うまくいかない日も学びは積み重なる。', 'Even on hard days, quiet lessons keep adding up.', 'hard', 'creative'),
         buildEnglishPhrase('風の音に森のリズムを聴く。', 'Listen closely and the forest reveals its rhythm.', 'hard', 'nature'),
         buildEnglishPhrase('便利さの裏側にある仕組みを想像する。', 'Look beneath convenience and imagine the system that makes it possible.', 'hard', 'tech'),
-        buildEnglishPhrase('音のない余白が言葉を深くする。', 'Silence between words can make meaning travel farther.', 'hard', 'creative')
+        buildEnglishPhrase('音のない余白が言葉を深くする。', 'Silence between words can make meaning travel farther.', 'hard', 'creative'),
+        buildEnglishPhrase('少し早く目を覚ます。', 'Wake up a little earlier than the alarm.', 'easy', 'daily'),
+        buildEnglishPhrase('帰り道に牛乳を買う。', 'Buy some milk on the way home.', 'easy', 'daily'),
+        buildEnglishPhrase('机を片づけて気持ちを軽くする。', 'Clear your desk and lighten your mind.', 'normal', 'daily'),
+        buildEnglishPhrase('始める前に冷たい水を一杯飲む。', 'Drink a glass of cold water before you begin.', 'easy', 'food'),
+        buildEnglishPhrase('週末に新しいレシピを試す。', 'Try a new recipe this weekend.', 'normal', 'food'),
+        buildEnglishPhrase('新しいスパイスの組み合わせが味を変える。', 'A new spice blend can change the whole flavor.', 'hard', 'food'),
+        buildEnglishPhrase('窓を開けて海の空気に気づく。', 'Open the window and notice the ocean air.', 'normal', 'nature'),
+        buildEnglishPhrase('月明かりが水面に細い道を描く。', 'Moonlight draws a narrow road across the water.', 'hard', 'nature'),
+        buildEnglishPhrase('鳥の群れが夕焼けの空を横切る。', 'A flock of birds crosses the orange evening sky.', 'hard', 'nature'),
+        buildEnglishPhrase('次の列車を駅の案内板で確認する。', 'Check the station board for the next train.', 'normal', 'travel'),
+        buildEnglishPhrase('地図にない店を小さな港町で見つける。', 'Find a shop that is missing from every map.', 'normal', 'travel'),
+        buildEnglishPhrase('列車の窓から景色が少しずつ変わる。', 'The view from the train window changes little by little.', 'hard', 'travel'),
+        buildEnglishPhrase('白い紙に最初の線を引く。', 'Draw the first line on a blank sheet of paper.', 'easy', 'creative'),
+        buildEnglishPhrase('音楽を止めて部屋が静かになるのを聴く。', 'Stop the music and listen to the room become quiet.', 'normal', 'creative'),
+        buildEnglishPhrase('異なる視点が物語に奥行きを与える。', 'Different viewpoints give a story more depth.', 'hard', 'creative'),
+        buildEnglishPhrase('スマートフォンを置いて会話に集中する。', 'Put your smartphone down and stay with the conversation.', 'normal', 'tech'),
+        buildEnglishPhrase('データを整理すると次の問いが見えてくる。', 'Organize the data and the next question appears.', 'normal', 'tech'),
+        buildEnglishPhrase('小さな実験で仮説をより正確にする。', 'Small experiments make a hypothesis more precise.', 'hard', 'tech'),
+        buildEnglishPhrase('朝のストレッチで体を目覚めさせる。', 'A morning stretch wakes up the whole body.', 'easy', 'sports'),
+        buildEnglishPhrase('弾むボールの音が体育館を満たす。', 'The sound of a bouncing ball fills the gym.', 'normal', 'sports'),
+        buildEnglishPhrase('声を掛け合うチームは最後まで集中できる。', 'A team that calls out together can stay focused to the end.', 'hard', 'sports'),
+        buildEnglishPhrase('好きな曲を一曲聴く。', 'Listen to one favorite song.', 'easy', 'music'),
+        buildEnglishPhrase('一定のリズムで一歩ずつ軽く進む。', 'A steady rhythm makes each step feel lighter.', 'normal', 'music'),
+        buildEnglishPhrase('静かな旋律が昔の景色を連れてくる。', 'A quiet melody can bring an old landscape back.', 'hard', 'music'),
+        buildEnglishPhrase('星の光は長い旅をして届く。', 'Starlight travels a long way before it reaches us.', 'normal', 'science'),
+        buildEnglishPhrase('測定値を比べると隠れた変化が見える。', 'Compare the measurements and hidden changes become visible.', 'hard', 'science'),
+        buildEnglishPhrase('新しい言葉をノートに書き留める。', 'Write a new word down in your notebook.', 'normal', 'study'),
+        buildEnglishPhrase('丁寧な言い換えで難しい考えが見えてくる。', 'A careful rephrasing can bring a difficult thought into focus.', 'hard', 'study')
       ];
       const phraseCatalog = { ja: phrases, en: englishPhrases };
       const seedRanking = [
@@ -655,12 +766,11 @@
         { name: 'Nagi', wpm: 32, accuracy: 90 }
       ];
       const difficultyLabels = { all: 'MIX', easy: 'EASY', normal: 'NORMAL', hard: 'HARD' };
-      const genreLabels = { all: 'ALL', daily: 'DAILY', nature: 'NATURE', travel: 'TRAVEL', food: 'FOOD', creative: 'CREATIVE', tech: 'TECH' };
+      const genreLabels = { all: 'ALL', daily: 'DAILY', nature: 'NATURE', travel: 'TRAVEL', food: 'FOOD', creative: 'CREATIVE', tech: 'TECH', sports: 'SPORTS', music: 'MUSIC', science: 'SCIENCE', study: 'STUDY' };
       const languageLabels = { ja: 'JA', en: 'EN' };
 
       const els = {
         alias: document.getElementById('aliasInput'),
-        averageHero: document.getElementById('heroAverage'),
         rankingAverage: document.getElementById('rankingAverage'),
         personalBest: document.getElementById('personalBest'),
         gameState: document.getElementById('gameState'),
@@ -678,6 +788,7 @@
         typingNote: document.getElementById('typingNote'),
         targetText: document.getElementById('targetText'),
         typingInput: document.getElementById('typingInput'),
+        typedFeedback: document.getElementById('typedFeedback'),
         progressFill: document.getElementById('progressFill'),
         startButton: document.getElementById('startButton'),
         resetButton: document.getElementById('resetButton'),
@@ -694,7 +805,18 @@
         youBarValue: document.getElementById('youBarValue'),
         averageBarValue: document.getElementById('averageBarValue'),
         rankingList: document.getElementById('rankingList'),
-        year: document.getElementById('year')
+        year: document.getElementById('year'),
+        resultModal: document.getElementById('resultModal'),
+        modalClose: document.getElementById('modalClose'),
+        modalKicker: document.getElementById('modalKicker'),
+        modalTitle: document.getElementById('modalTitle'),
+        modalWpm: document.getElementById('modalWpm'),
+        modalMessage: document.getElementById('modalMessage'),
+        modalAccuracy: document.getElementById('modalAccuracy'),
+        modalChars: document.getElementById('modalChars'),
+        modalErrors: document.getElementById('modalErrors'),
+        modalRetry: document.getElementById('modalRetry'),
+        modalViewResults: document.getElementById('modalViewResults')
       };
 
       const state = {
@@ -710,6 +832,7 @@
         phraseNumber: 0,
         phraseQueue: [],
         lastPhrase: null,
+        roundStarted: false,
         currentPhrase: phrases[0],
         targetSegments: phrases[0].segments,
         committedCorrect: 0,
@@ -805,7 +928,16 @@
 
       function refillPhraseQueue() {
         const pool = phrasePool();
-        state.phraseQueue = pool.slice().sort(() => Math.random() - 0.5);
+        // Deduplicate by the visible typing line as a final guard. The deck is
+        // consumed once per round, so a line can never appear twice in it.
+        const seen = new Set();
+        const uniquePool = pool.filter((phrase) => {
+          const key = phrase.text || phrase.jp;
+          if (seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        });
+        state.phraseQueue = uniquePool.sort(() => Math.random() - 0.5);
         if (state.phraseQueue.length > 1 && state.phraseQueue[0] === state.lastPhrase) {
           const replacementIndex = state.phraseQueue.findIndex((phrase) => phrase !== state.lastPhrase);
           if (replacementIndex > 0) [state.phraseQueue[0], state.phraseQueue[replacementIndex]] = [state.phraseQueue[replacementIndex], state.phraseQueue[0]];
@@ -813,7 +945,15 @@
       }
 
       function choosePhrase() {
-        if (!state.phraseQueue.length) refillPhraseQueue();
+        if (!state.phraseQueue.length) {
+          // A queue is shuffled once per round. Once every matching line has
+          // been shown, finish instead of refilling it and repeating a line.
+          if (state.running && state.roundStarted) {
+            finishGame('all-lines');
+            return false;
+          }
+          refillPhraseQueue();
+        }
         state.currentPhrase = state.phraseQueue.shift();
         state.lastPhrase = state.currentPhrase;
         state.phraseNumber += 1;
@@ -829,10 +969,11 @@
         const isEnglish = state.language === 'en';
         els.typingModeLabel.textContent = isEnglish ? 'TYPE THIS ENGLISH / SPACES OPTIONAL' : 'TYPE THIS ROMAJI / SPACES OPTIONAL';
         els.typingNote.textContent = isEnglish
-          ? 'スペースは入力しなくてOK。大文字・小文字は区別しません。WPMは「正しく入力した5文字＝1 word」で計算します。'
-          : 'スペースは入力しなくてOK。かなごとの複数表記（例：し＝shi / si、ん＝n / nn）に対応しています。WPMは「正しく入力した5文字＝1 word」で計算します。';
+          ? 'スペースは入力しなくてOK。大文字・小文字は区別しません。ミスしてもそのまま続けられます。ラウンド内で同じ文章は出ません。WPMは「正しく入力した5文字＝1 word」で計算します。'
+          : 'スペースは入力しなくてOK。かなごとの複数表記（例：し＝shi / si、ん＝n / nn）に対応しています。ミスしてもそのまま続けられます。ラウンド内で同じ文章は出ません。WPMは「正しく入力した5文字＝1 word」で計算します。';
         els.typingInput.placeholder = isEnglish ? 'ゲーム開始後、ここに入力…' : 'ゲーム開始後、ここにローマ字で入力…';
         renderTarget(matchInput('', state.targetSegments));
+        return true;
       }
 
       function normalizeInput(value) {
@@ -842,12 +983,13 @@
       function closeStates(states, segments) {
         const queue = states.slice();
         const result = [];
-        const seen = new Set();
+        const bestErrors = new Map();
         while (queue.length) {
           const stateItem = queue.shift();
           const key = `${stateItem.segment}:${stateItem.option}:${stateItem.offset}`;
-          if (seen.has(key)) continue;
-          seen.add(key);
+          const errors = stateItem.errors || 0;
+          if (bestErrors.has(key) && bestErrors.get(key) <= errors) continue;
+          bestErrors.set(key, errors);
           if (stateItem.segment >= segments.length) {
             result.push(stateItem);
             continue;
@@ -856,10 +998,10 @@
           if (stateItem.offset >= option.length) {
             const nextSegment = stateItem.segment + 1;
             if (nextSegment >= segments.length) {
-              queue.push({ segment: segments.length, option: 0, offset: 0 });
+              queue.push({ segment: segments.length, option: 0, offset: 0, errors, history: stateItem.history || [] });
             } else {
               segments[nextSegment].options.forEach((unusedOption, optionIndex) => {
-                queue.push({ segment: nextSegment, option: optionIndex, offset: 0 });
+                queue.push({ segment: nextSegment, option: optionIndex, offset: 0, errors, history: stateItem.history || [] });
               });
             }
           } else {
@@ -874,9 +1016,24 @@
         closeStates(states, segments).forEach((stateItem) => {
           if (stateItem.segment >= segments.length) return;
           const option = segments[stateItem.segment].options[stateItem.option];
-          if (option[stateItem.offset] === character) {
-            next.push({ segment: stateItem.segment, option: stateItem.option, offset: stateItem.offset + 1 });
-          }
+          const isCorrect = option[stateItem.offset] === character;
+          // Consume one expected character even after a typo. This keeps the
+          // round moving and lets players recover without being forced to
+          // backspace through an entire sentence.
+          next.push({
+            segment: stateItem.segment,
+            option: stateItem.option,
+            offset: stateItem.offset + 1,
+            errors: (stateItem.errors || 0) + (isCorrect ? 0 : 1),
+            history: (stateItem.history || []).concat({
+              segment: stateItem.segment,
+              option: stateItem.option,
+              offset: stateItem.offset,
+              expected: option[stateItem.offset],
+              character,
+              correct: isCorrect
+            })
+          });
         });
         return closeStates(next, segments);
       }
@@ -884,11 +1041,11 @@
       function matchInput(value, segments) {
         const typed = normalizeInput(value);
         const firstStates = segments.length
-          ? segments[0].options.map((unusedOption, optionIndex) => ({ segment: 0, option: optionIndex, offset: 0 }))
-          : [{ segment: 0, option: 0, offset: 0 }];
+          ? segments[0].options.map((unusedOption, optionIndex) => ({ segment: 0, option: optionIndex, offset: 0, errors: 0, history: [] }))
+          : [{ segment: 0, option: 0, offset: 0, errors: 0, history: [] }];
         let states = closeStates(firstStates, segments);
         let validStates = states;
-        let validLength = 0;
+        let consumed = 0;
         let invalid = false;
         for (const character of Array.from(typed)) {
           const next = advanceStates(states, character, segments);
@@ -896,16 +1053,32 @@
             invalid = true;
             break;
           }
-          validLength += 1;
+          consumed += 1;
           states = next;
           validStates = states;
         }
-        const complete = !invalid && states.some((stateItem) => stateItem.segment >= segments.length);
-        return { typed, validLength, validStates, invalid, complete };
+        const minimumErrors = validStates.length ? Math.min(...validStates.map((stateItem) => stateItem.errors || 0)) : 0;
+        const bestStates = validStates.filter((stateItem) => (stateItem.errors || 0) === minimumErrors);
+        const typedCharacters = Array.from(typed);
+        const trailingStatuses = typedCharacters.slice(consumed).map((character) => ({ character, expected: '', correct: false, trailing: true }));
+        const history = bestStates.length && bestStates[0].history ? bestStates[0].history : [];
+        const characterStatuses = history.concat(trailingStatuses);
+        const errors = minimumErrors + (typedCharacters.length - consumed);
+        const correct = Math.max(0, consumed - minimumErrors);
+        const complete = !invalid && bestStates.some((stateItem) => stateItem.segment >= segments.length);
+        return { typed, validLength: correct, correct, errors, validStates: bestStates, characterStatuses, invalid, complete, hasErrors: errors > 0 };
       }
 
       function renderTarget(match) {
         els.targetText.textContent = '';
+        const characterStatuses = new Map();
+        (match.characterStatuses || []).forEach((status) => {
+          if (!Number.isInteger(status.segment) || !Number.isInteger(status.offset)) return;
+          const segment = state.targetSegments[status.segment];
+          if (!segment || segment.options[status.option] !== segment.display) return;
+          const key = `${status.segment}:${status.offset}`;
+          if (!characterStatuses.has(key)) characterStatuses.set(key, status);
+        });
         const segmentPositions = match.validStates.map((stateItem) => {
           if (stateItem.segment >= state.targetSegments.length) return state.targetSegments.length;
           const option = state.targetSegments[stateItem.segment].options[stateItem.option];
@@ -914,13 +1087,23 @@
         const furthest = Math.min(state.targetSegments.length, Math.max(0, ...segmentPositions));
         const completedSegments = match.complete ? state.targetSegments.length : Math.floor(furthest);
         state.targetSegments.forEach((segment, index) => {
+          const fallbackClass = index < completedSegments
+            ? 'correct'
+            : (index === completedSegments && match.hasErrors ? 'incorrect' : (index === completedSegments ? 'current' : 'upcoming'));
+          Array.from(segment.display).forEach((character, offset) => {
+            const span = document.createElement('span');
+            const status = characterStatuses.get(`${index}:${offset}`);
+            span.textContent = character;
+            span.className = status ? (status.correct ? 'correct' : 'incorrect') : fallbackClass;
+            els.targetText.appendChild(span);
+          });
+        });
+        els.typedFeedback.textContent = '';
+        (match.characterStatuses || []).forEach((status) => {
           const span = document.createElement('span');
-          span.textContent = segment.display;
-          if (index < completedSegments) span.className = 'correct';
-          else if (index === completedSegments && match.invalid) span.className = 'incorrect';
-          else if (index === completedSegments) span.className = 'current';
-          else span.className = 'upcoming';
-          els.targetText.appendChild(span);
+          span.textContent = status.character;
+          span.className = status.correct ? 'typed-correct' : 'typed-incorrect';
+          els.typedFeedback.appendChild(span);
         });
         const progress = state.targetSegments.length ? Math.min(100, (furthest / state.targetSegments.length) * 100) : 0;
         els.progressFill.style.width = `${progress}%`;
@@ -928,7 +1111,7 @@
 
       function currentInputStats() {
         const match = matchInput(els.typingInput.value, state.targetSegments);
-        return { ...match, chars: Array.from(match.typed), correct: match.validLength, errors: Array.from(match.typed).length - match.validLength, trailing: match.validLength };
+        return { ...match, chars: Array.from(match.typed), correct: match.validLength, errors: match.errors, trailing: match.hasErrors ? 0 : match.validLength };
       }
 
       function getTotals() {
@@ -943,9 +1126,12 @@
         };
       }
 
-      function calculateWpm(correct, seconds) {
-        if (!correct || !seconds) return 0;
-        return Math.max(0, Math.round((correct / 5) / (seconds / 60)));
+      function calculateWpm(correctCharacters, seconds) {
+        if (!correctCharacters || !seconds) return 0;
+        // WPM is updated on every input event: five correctly typed
+        // characters count as one word, then are divided by elapsed minutes.
+        const elapsedMinutes = seconds / 60;
+        return Math.max(0, Math.round((correctCharacters / 5) / elapsedMinutes));
       }
 
       function updateLiveStats() {
@@ -995,6 +1181,8 @@
         state.phraseNumber = 0;
         state.phraseQueue = [];
         state.lastPhrase = null;
+        state.roundStarted = true;
+        refillPhraseQueue();
         choosePhrase();
         els.typingInput.disabled = false;
         els.typingInput.focus();
@@ -1012,10 +1200,10 @@
         state.timeLeft = Math.max(0, state.mode - elapsed);
         els.timeLeft.textContent = formatTime(state.timeLeft);
         updateLiveStats();
-        if (state.timeLeft <= 0) finishGame();
+        if (state.timeLeft <= 0) finishGame('time');
       }
 
-      function finishGame() {
+      function finishGame(reason = 'time') {
         if (!state.running) return;
         const totals = getTotals();
         const elapsed = Math.min(state.mode, Math.max(.1, (performance.now() - state.startedAt) / 1000));
@@ -1025,9 +1213,10 @@
         if (state.transitionId) window.clearTimeout(state.transitionId);
         state.transitionId = null;
         state.transitioning = false;
+        state.roundStarted = false;
         const wpm = calculateWpm(totals.correct, elapsed);
         const accuracy = totals.attempted ? Math.round((totals.correct / totals.attempted) * 100) : 100;
-        const result = { name: cleanAlias(els.alias.value), wpm, accuracy, correct: totals.correct, errors: totals.errors, mode: state.mode, seconds: elapsed, id: Date.now() };
+        const result = { name: cleanAlias(els.alias.value), wpm, accuracy, correct: totals.correct, errors: totals.errors, mode: state.mode, seconds: elapsed, reason };
         els.typingInput.disabled = true;
         els.startButton.disabled = false;
         els.startButton.innerHTML = 'もう一度プレイ <span class="arrow" aria-hidden="true">→</span>';
@@ -1035,9 +1224,11 @@
         setGameState('ROUND COMPLETE', 'finished');
         renderResult(result);
         saveResult(result);
+        openResultModal(result, reason);
       }
 
       function resetGame() {
+        if (els.resultModal && !els.resultModal.hidden) closeResultModal(false);
         if (state.timerId) window.clearInterval(state.timerId);
         if (state.transitionId) window.clearTimeout(state.transitionId);
         state.running = false;
@@ -1053,6 +1244,7 @@
         state.phraseNumber = 0;
         state.phraseQueue = [];
         state.lastPhrase = null;
+        state.roundStarted = false;
         choosePhrase();
         els.typingInput.disabled = true;
         els.startButton.disabled = false;
@@ -1071,7 +1263,7 @@
         const accuracyDifference = result.accuracy - AVERAGE_ACCURACY;
         const percentile = resultPercentile(result.wpm);
         els.resultCard.dataset.state = 'ready';
-        els.resultBadge.textContent = difference >= 0 ? 'NEW SCORE' : 'ROUND COMPLETE';
+        els.resultBadge.textContent = result.reason === 'all-lines' ? 'ALL LINES CLEAR' : (difference >= 0 ? 'NEW SCORE' : 'ROUND COMPLETE');
         els.resultWpm.textContent = result.wpm;
         els.resultAccuracy.innerHTML = `${result.accuracy}<small>%</small>`;
         els.resultChars.textContent = result.correct;
@@ -1091,6 +1283,43 @@
           els.youBar.style.width = `${Math.min(100, (result.wpm / scale) * 100)}%`;
           els.averageBar.style.width = `${Math.min(100, (AVERAGE_WPM / scale) * 100)}%`;
         });
+      }
+
+      let previousFocus = null;
+
+      function closeResultModal(restoreFocus = true) {
+        if (!els.resultModal || els.resultModal.hidden) return;
+        els.resultModal.hidden = true;
+        document.body.classList.remove('modal-open');
+        const focusTarget = previousFocus && !previousFocus.disabled ? previousFocus : els.startButton;
+        if (restoreFocus && focusTarget && typeof focusTarget.focus === 'function') focusTarget.focus();
+        previousFocus = null;
+      }
+
+      function openResultModal(result, reason = 'time') {
+        if (!els.resultModal) return;
+        const difference = result.wpm - AVERAGE_WPM;
+        const accuracyDifference = result.accuracy - AVERAGE_ACCURACY;
+        els.modalKicker.textContent = reason === 'all-lines' ? 'ALL LINES CLEARED' : 'ROUND COMPLETE';
+        els.modalTitle.textContent = difference >= 0 ? 'いいペースです。' : 'ナイスラン。';
+        els.modalWpm.textContent = result.wpm;
+        els.modalAccuracy.innerHTML = `${result.accuracy}<small>%</small>`;
+        els.modalChars.textContent = result.correct;
+        els.modalErrors.textContent = result.errors;
+        const speedLine = difference >= 0
+          ? `平均より <strong>+${difference} WPM</strong> 速いペースです。`
+          : `平均まであと <strong>${Math.abs(difference)} WPM</strong>。次の一打で更新できます。`;
+        const accuracyLine = accuracyDifference >= 0
+          ? `正確率は平均より <strong>+${accuracyDifference}pt</strong>。`
+          : `正確率は平均より <strong>${Math.abs(accuracyDifference)}pt</strong> 下回りました。`;
+        const finishLine = reason === 'all-lines'
+          ? '選んだ文章をすべて入力しました。'
+          : `${result.mode}秒のラウンドが終了しました。`;
+        els.modalMessage.innerHTML = `${finishLine}<br>${speedLine}<br>${accuracyLine}`;
+        previousFocus = document.activeElement;
+        els.resultModal.hidden = false;
+        document.body.classList.add('modal-open');
+        els.modalClose.focus();
       }
 
       function saveResult(result) {
@@ -1133,7 +1362,6 @@
       }
 
       function initialize() {
-        els.averageHero.textContent = AVERAGE_WPM;
         els.rankingAverage.textContent = AVERAGE_WPM;
         els.year.textContent = new Date().getFullYear();
         const savedAlias = readStorage(ALIAS_KEY, 'Sakurako');
@@ -1153,11 +1381,25 @@
         });
         els.startButton.addEventListener('click', startGame);
         els.resetButton.addEventListener('click', resetGame);
+        els.modalClose.addEventListener('click', () => closeResultModal());
+        els.modalViewResults.addEventListener('click', () => {
+          closeResultModal(false);
+          document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+        els.modalRetry.addEventListener('click', () => {
+          closeResultModal(false);
+          startGame();
+        });
+        document.querySelectorAll('[data-modal-close]').forEach((element) => element.addEventListener('click', () => closeResultModal()));
         let composing = false;
         els.typingInput.addEventListener('compositionstart', () => { composing = true; });
         els.typingInput.addEventListener('compositionend', () => { composing = false; handleInput(); });
         els.typingInput.addEventListener('input', () => { if (!composing) handleInput(); });
         document.addEventListener('keydown', (event) => {
+          if (els.resultModal && !els.resultModal.hidden) {
+            if (event.key === 'Escape') closeResultModal();
+            return;
+          }
           if (event.code === 'Space' && !state.running && document.activeElement !== els.alias) {
             event.preventDefault();
             startGame();
