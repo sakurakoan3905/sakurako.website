@@ -3,23 +3,28 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Sakurakoの自己紹介ページ。デザインと文章で、まだ見ぬアイデアを形にします。">
-  <title>Sakurako — 自己紹介</title>
+  <meta name="description" content="Sakurako Type Lab。ローマ字タイピングでWPMと正確率を測定し、平均値やランキングと比較できます。">
+  <meta name="theme-color" content="#20251f">
+  <title>Sakurako Type Lab — タイピングゲーム</title>
   <style>
     :root {
       --paper: #f7f4ec;
-      --paper-deep: #ece8dc;
+      --paper-deep: #ebe7da;
       --ink: #20251f;
-      --muted: #6c7469;
+      --muted: #6f766a;
       --line: rgba(32, 37, 31, .14);
+      --line-strong: rgba(32, 37, 31, .27);
       --lime: #d7ef68;
       --coral: #ff806a;
       --lavender: #d8cef7;
       --white: #fffdf7;
-      --shadow: 0 20px 50px rgba(45, 50, 37, .11);
-      --radius-lg: 34px;
-      --radius-md: 20px;
+      --success: #557c4f;
+      --danger: #d65e55;
+      --shadow: 0 18px 46px rgba(45, 50, 37, .1);
+      --radius-lg: 30px;
+      --radius-md: 18px;
       --sans: "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans JP", system-ui, sans-serif;
+      --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
       --display: "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", Georgia, serif;
     }
 
@@ -30,283 +35,243 @@
       color: var(--ink);
       background: var(--paper);
       font-family: var(--sans);
-      line-height: 1.75;
+      line-height: 1.7;
       -webkit-font-smoothing: antialiased;
     }
     a { color: inherit; text-decoration: none; }
-    a:focus-visible, button:focus-visible { outline: 3px solid var(--coral); outline-offset: 4px; }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    a:focus-visible, button:focus-visible, input:focus-visible { outline: 3px solid var(--coral); outline-offset: 4px; }
     ::selection { color: var(--ink); background: var(--lime); }
 
-    .page-shell { width: min(1180px, calc(100% - 48px)); margin: 0 auto; }
-    .topbar {
+    .page-shell { width: min(1160px, calc(100% - 48px)); margin: 0 auto; }
+    .site-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      min-height: 92px;
+      min-height: 90px;
       border-bottom: 1px solid var(--line);
     }
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 11px;
-      font-size: .77rem;
-      font-weight: 800;
-      letter-spacing: .17em;
-    }
+    .brand { display: inline-flex; align-items: center; gap: 11px; }
     .brand-mark {
       display: grid;
-      width: 33px;
-      height: 33px;
+      width: 34px;
+      height: 34px;
       place-items: center;
       border: 2px solid var(--ink);
       border-radius: 50%;
       font-family: var(--display);
-      font-size: 1.05rem;
+      font-size: 1.1rem;
       font-weight: 700;
-      letter-spacing: 0;
       transform: rotate(-8deg);
     }
-    .nav { display: flex; align-items: center; gap: clamp(18px, 3vw, 38px); font-size: .85rem; }
-    .nav a { position: relative; color: var(--muted); transition: color .2s ease; }
-    .nav a::after {
-      position: absolute;
-      right: 0;
-      bottom: -7px;
-      left: 0;
-      height: 2px;
-      content: "";
-      background: var(--ink);
-      transform: scaleX(0);
-      transform-origin: right;
-      transition: transform .25s ease;
-    }
-    .nav a:hover { color: var(--ink); }
-    .nav a:hover::after { transform: scaleX(1); transform-origin: left; }
-    .nav-cta {
-      padding: 9px 17px;
-      border: 1px solid var(--ink);
-      border-radius: 99px;
-      color: var(--ink) !important;
-      transition: background .2s ease, color .2s ease;
-    }
-    .nav-cta::after { display: none; }
-    .nav-cta:hover { color: var(--white) !important; background: var(--ink); }
+    .brand-copy { display: flex; flex-direction: column; line-height: 1.15; }
+    .brand-copy strong { font-size: .77rem; letter-spacing: .15em; }
+    .brand-copy small { margin-top: 4px; color: var(--muted); font-size: .59rem; letter-spacing: .16em; }
+    .header-meta { display: flex; align-items: center; gap: 23px; color: var(--muted); font-size: .68rem; font-weight: 800; letter-spacing: .13em; }
+    .live-status { display: inline-flex; align-items: center; gap: 8px; color: var(--ink); }
+    .live-status::before { width: 7px; height: 7px; border-radius: 50%; content: ""; background: var(--coral); box-shadow: 0 0 0 4px rgba(255, 128, 106, .17); }
 
     .hero {
       display: grid;
-      grid-template-columns: minmax(0, 1.05fr) minmax(350px, .95fr);
-      align-items: center;
-      gap: clamp(44px, 8vw, 106px);
-      min-height: 640px;
-      padding: 72px 0 83px;
+      grid-template-columns: minmax(0, 1fr) 290px;
+      gap: 50px;
+      align-items: end;
+      padding: 72px 0 64px;
     }
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 9px;
-      margin: 0 0 19px;
-      color: var(--muted);
-      font-size: .72rem;
+    .eyebrow, .section-kicker {
+      margin: 0 0 18px;
+      color: var(--coral);
+      font-size: .7rem;
       font-weight: 800;
       letter-spacing: .18em;
     }
-    .eyebrow::before { display: block; width: 28px; height: 2px; content: ""; background: var(--coral); }
-    h1 {
-      max-width: 680px;
-      margin: 0;
-      font-size: clamp(3.4rem, 7vw, 6.6rem);
-      font-weight: 800;
-      letter-spacing: -.095em;
-      line-height: 1.12;
-    }
+    .eyebrow { display: inline-flex; align-items: center; gap: 9px; }
+    .eyebrow::before { width: 27px; height: 2px; content: ""; background: var(--coral); }
+    h1 { max-width: 780px; margin: 0; font-size: clamp(3.1rem, 7.6vw, 6.3rem); font-weight: 800; letter-spacing: -.1em; line-height: 1.13; }
     h1 em { position: relative; display: inline-block; color: var(--coral); font-family: var(--display); font-style: normal; font-weight: 600; letter-spacing: -.13em; }
-    h1 em::after { position: absolute; right: 2%; bottom: 3px; left: 4%; height: 11px; z-index: -1; content: ""; background: var(--lime); transform: rotate(-2deg); }
-    .hero-copy {
-      max-width: 490px;
-      margin: 28px 0 31px;
-      color: var(--muted);
-      font-size: 1rem;
-      letter-spacing: .035em;
+    h1 em::after { position: absolute; right: 2%; bottom: 4px; left: 3%; height: 10px; z-index: -1; content: ""; background: var(--lime); transform: rotate(-2deg); }
+    .hero-copy { max-width: 640px; margin: 23px 0 0; color: var(--muted); font-size: .95rem; letter-spacing: .025em; }
+    .average-card { position: relative; overflow: hidden; padding: 26px 25px 24px; border-radius: var(--radius-md); background: var(--ink); color: var(--white); }
+    .average-card::after { position: absolute; right: -33px; bottom: -56px; width: 135px; height: 135px; border: 1px solid rgba(215, 239, 104, .7); border-radius: 50%; content: ""; }
+    .average-label { position: relative; z-index: 1; display: block; color: var(--lime); font-size: .62rem; font-weight: 800; letter-spacing: .15em; }
+    .average-number { position: relative; z-index: 1; display: flex; align-items: baseline; gap: 9px; margin-top: 9px; }
+    .average-number strong { font-family: var(--mono); font-size: 3.45rem; letter-spacing: -.1em; line-height: 1; }
+    .average-number span { color: rgba(255, 253, 247, .7); font-family: var(--mono); font-size: .78rem; }
+    .average-note { position: relative; z-index: 1; margin: 9px 0 0; color: rgba(255, 253, 247, .68); font-size: .69rem; }
+    .mini-track { position: relative; z-index: 1; height: 5px; margin-top: 18px; overflow: hidden; border-radius: 99px; background: rgba(255, 253, 247, .16); }
+    .mini-track span { display: block; width: 56%; height: 100%; border-radius: inherit; background: var(--lime); }
+
+    .game-layout { display: grid; grid-template-columns: minmax(0, 1fr) 272px; gap: 18px; align-items: start; }
+    .game-card, .side-card, .result-card, .ranking-card { border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--white); }
+    .game-card { overflow: hidden; box-shadow: var(--shadow); }
+    .game-head { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 24px 28px 20px; border-bottom: 1px solid var(--line); }
+    .card-kicker { margin: 0 0 4px; color: var(--coral); font-size: .65rem; font-weight: 800; letter-spacing: .16em; }
+    .game-head h2, .result-head h2, .ranking-head h2 { margin: 0; font-size: 1.25rem; letter-spacing: -.04em; }
+    .game-state { display: inline-flex; align-items: center; gap: 7px; color: var(--muted); font-family: var(--mono); font-size: .65rem; letter-spacing: .08em; white-space: nowrap; }
+    .game-state::before { width: 6px; height: 6px; border-radius: 50%; content: ""; background: var(--muted); }
+    .game-state[data-state="running"] { color: var(--success); }
+    .game-state[data-state="running"]::before { background: var(--success); box-shadow: 0 0 0 4px rgba(85, 124, 79, .14); }
+    .game-state[data-state="finished"] { color: var(--coral); }
+    .game-state[data-state="finished"]::before { background: var(--coral); }
+    .game-content { padding: 25px 28px 29px; }
+    .mode-row { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-bottom: 22px; }
+    .mode-label { color: var(--muted); font-size: .69rem; font-weight: 800; letter-spacing: .1em; }
+    .mode-switch { display: inline-flex; gap: 4px; padding: 4px; border-radius: 99px; background: var(--paper); }
+    .mode-button { min-width: 48px; padding: 6px 9px; border: 0; border-radius: 99px; background: transparent; color: var(--muted); font-family: var(--mono); font-size: .66rem; transition: background .2s ease, color .2s ease; }
+    .mode-button:hover { color: var(--ink); }
+    .mode-button[aria-selected="true"] { background: var(--ink); color: var(--white); }
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; margin-bottom: 26px; }
+    .stat { min-width: 0; padding: 14px 15px 12px; border-radius: 13px; background: var(--paper); }
+    .stat-label { display: block; overflow: hidden; color: var(--muted); font-size: .61rem; font-weight: 800; letter-spacing: .12em; text-overflow: ellipsis; white-space: nowrap; }
+    .stat-value { display: block; margin-top: 3px; font-family: var(--mono); font-size: 1.45rem; font-weight: 700; letter-spacing: -.08em; line-height: 1.25; }
+    .stat-value span { margin-left: 2px; color: var(--muted); font-size: .63rem; letter-spacing: 0; }
+    .stat.timer .stat-value { color: var(--coral); }
+    .typing-box { padding: 24px 24px 21px; border: 1px solid var(--line); border-radius: 16px; background: #fbfaf5; }
+    .typing-label { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-bottom: 15px; color: var(--muted); font-family: var(--mono); font-size: .61rem; letter-spacing: .07em; }
+    .typing-label .phrase-count { color: var(--coral); }
+    .japanese-prompt { margin: 0 0 8px; font-size: 1.03rem; font-weight: 700; letter-spacing: .04em; line-height: 1.8; }
+    .target-text { min-height: 52px; color: #a9aea5; font-family: var(--mono); font-size: clamp(.93rem, 1.8vw, 1.08rem); letter-spacing: .03em; line-height: 1.85; word-break: break-word; }
+    .target-text span { border-radius: 3px; transition: color .12s ease, background .12s ease; }
+    .target-text span.correct { color: var(--success); }
+    .target-text span.incorrect { color: var(--danger); background: rgba(214, 94, 85, .15); }
+    .target-text span.current { color: var(--ink); background: var(--lime); box-shadow: 0 0 0 2px var(--lime); }
+    .target-text span.upcoming { color: #a9aea5; }
+    .input-wrap { position: relative; display: flex; align-items: center; margin-top: 18px; }
+    .typing-input { width: 100%; min-height: 52px; padding: 0 49px 0 16px; border: 1px solid var(--line-strong); border-radius: 11px; outline: 0; background: var(--white); color: var(--ink); font-family: var(--mono); font-size: .9rem; transition: border-color .2s ease, box-shadow .2s ease; }
+    .typing-input::placeholder { color: #a9aea5; font-family: var(--sans); font-size: .8rem; }
+    .typing-input:focus { border-color: var(--ink); box-shadow: 0 0 0 4px rgba(215, 239, 104, .35); }
+    .typing-input:disabled { cursor: not-allowed; background: #f0eee7; }
+    .input-key { position: absolute; right: 13px; display: grid; width: 25px; height: 25px; place-items: center; border: 1px solid var(--line); border-radius: 6px; color: var(--muted); font-family: var(--mono); font-size: .7rem; pointer-events: none; }
+    .progress-track { height: 5px; margin: 18px 0 0; overflow: hidden; border-radius: 99px; background: var(--paper-deep); }
+    .progress-track span { display: block; width: 0; height: 100%; border-radius: inherit; background: var(--coral); transition: width .14s ease; }
+    .typing-note { margin: 12px 0 0; color: var(--muted); font-size: .68rem; }
+    .control-row { display: flex; align-items: center; gap: 13px; margin-top: 22px; }
+    .primary-button, .secondary-button { min-height: 47px; border-radius: 99px; font-size: .78rem; font-weight: 800; transition: transform .2s ease, box-shadow .2s ease, background .2s ease; }
+    .primary-button { display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-width: 158px; padding: 0 20px; border: 1px solid var(--ink); background: var(--ink); color: var(--white); }
+    .primary-button:hover:not(:disabled) { box-shadow: 0 8px 18px rgba(32, 37, 31, .17); transform: translateY(-2px); }
+    .primary-button:disabled { cursor: wait; opacity: .6; }
+    .primary-button .arrow { font-size: 1.05rem; line-height: 1; }
+    .secondary-button { padding: 0 17px; border: 1px solid var(--line-strong); background: transparent; color: var(--ink); }
+    .secondary-button:hover { background: var(--paper); }
+    .shortcut { margin-left: auto; color: var(--muted); font-family: var(--mono); font-size: .61rem; }
+    .shortcut kbd { padding: 3px 6px; border: 1px solid var(--line); border-radius: 4px; background: var(--paper); font-family: inherit; }
+
+    .side-column { display: grid; gap: 18px; }
+    .side-card { padding: 23px 23px 24px; }
+    .side-card.profile { background: var(--lavender); }
+    .side-card h3 { margin: 0 0 17px; font-size: .98rem; letter-spacing: -.03em; }
+    .side-card label { display: block; margin-bottom: 6px; color: var(--muted); font-size: .64rem; font-weight: 800; letter-spacing: .11em; }
+    .alias-input { width: 100%; min-height: 41px; padding: 0 12px; border: 1px solid rgba(32, 37, 31, .25); border-radius: 9px; outline: 0; background: rgba(255, 253, 247, .58); color: var(--ink); font-size: .82rem; }
+    .alias-input:focus { border-color: var(--ink); }
+    .side-note { margin: 12px 0 0; color: var(--muted); font-size: .67rem; line-height: 1.65; }
+    .personal-best { display: flex; align-items: end; justify-content: space-between; margin-top: 22px; padding-top: 17px; border-top: 1px solid rgba(32, 37, 31, .15); }
+    .personal-best span { color: var(--muted); font-size: .62rem; font-weight: 800; letter-spacing: .1em; }
+    .personal-best strong { font-family: var(--mono); font-size: 1.55rem; letter-spacing: -.08em; line-height: 1; }
+    .personal-best strong small { margin-left: 2px; color: var(--muted); font-size: .62rem; letter-spacing: 0; }
+    .steps { display: grid; gap: 17px; margin: 0; padding: 0; list-style: none; }
+    .step { display: grid; grid-template-columns: 27px 1fr; gap: 10px; align-items: start; }
+    .step-number { display: grid; width: 25px; height: 25px; place-items: center; border-radius: 50%; background: var(--lime); font-family: var(--mono); font-size: .68rem; font-weight: 700; }
+    .step strong { display: block; margin-top: 1px; font-size: .75rem; }
+    .step p { margin: 1px 0 0; color: var(--muted); font-size: .66rem; line-height: 1.6; }
+
+    .section { padding: 105px 0 0; }
+    .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 25px; margin-bottom: 20px; }
+    .section-heading h2 { margin: 0; font-size: clamp(1.7rem, 3.3vw, 2.6rem); letter-spacing: -.075em; line-height: 1.25; }
+    .section-heading .section-kicker { margin: 0 0 7px; }
+    .section-description { max-width: 370px; margin: 0; color: var(--muted); font-size: .76rem; text-align: right; }
+    .result-layout { display: grid; grid-template-columns: minmax(0, .97fr) minmax(350px, 1.03fr); gap: 18px; }
+    .result-card, .ranking-card { min-height: 370px; padding: 25px 28px 28px; }
+    .result-head, .ranking-head { display: flex; align-items: start; justify-content: space-between; gap: 15px; padding-bottom: 19px; border-bottom: 1px solid var(--line); }
+    .result-badge { padding: 5px 9px; border-radius: 99px; background: var(--paper); color: var(--muted); font-family: var(--mono); font-size: .57rem; letter-spacing: .08em; white-space: nowrap; }
+    .result-card[data-state="ready"] .result-badge { background: var(--lime); color: var(--ink); }
+    .result-empty { display: grid; min-height: 270px; place-items: center; color: var(--muted); text-align: center; }
+    .result-empty .empty-icon { display: grid; width: 46px; height: 46px; margin: 0 auto 15px; place-items: center; border: 1px solid var(--line-strong); border-radius: 50%; color: var(--coral); font-family: var(--display); font-size: 1.45rem; }
+    .result-empty p { margin: 0; font-size: .78rem; }
+    .result-data { display: none; padding-top: 23px; }
+    .result-card[data-state="ready"] .result-empty { display: none; }
+    .result-card[data-state="ready"] .result-data { display: block; }
+    .result-main-stat { display: flex; align-items: baseline; gap: 10px; }
+    .result-main-stat strong { font-family: var(--mono); font-size: 4rem; letter-spacing: -.12em; line-height: 1; }
+    .result-main-stat span { color: var(--muted); font-family: var(--mono); font-size: .75rem; }
+    .result-message { margin: 12px 0 22px; font-size: .79rem; }
+    .result-message strong { color: var(--coral); }
+    .result-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; padding-top: 18px; border-top: 1px solid var(--line); }
+    .result-metric span { display: block; color: var(--muted); font-size: .61rem; font-weight: 800; letter-spacing: .1em; }
+    .result-metric strong { display: block; margin-top: 3px; font-family: var(--mono); font-size: 1.13rem; letter-spacing: -.06em; }
+    .result-metric strong small { margin-left: 2px; color: var(--muted); font-size: .58rem; letter-spacing: 0; }
+    .comparison { margin-top: 21px; }
+    .comparison-title { display: flex; align-items: center; justify-content: space-between; margin-bottom: 9px; color: var(--muted); font-family: var(--mono); font-size: .61rem; letter-spacing: .05em; }
+    .comparison-title strong { color: var(--ink); font-size: .68rem; }
+    .compare-bars { display: grid; gap: 8px; }
+    .bar-row { display: grid; grid-template-columns: 64px 1fr 43px; gap: 8px; align-items: center; color: var(--muted); font-family: var(--mono); font-size: .62rem; }
+    .bar-track { height: 10px; overflow: hidden; border-radius: 99px; background: var(--paper-deep); }
+    .bar-track span { display: block; width: 0; height: 100%; border-radius: inherit; transition: width .8s cubic-bezier(.22, 1, .36, 1); }
+    .bar-row.you .bar-track span { background: var(--coral); }
+    .bar-row.average .bar-track span { background: var(--ink); opacity: .35; }
+    .bar-row em { color: var(--ink); font-style: normal; text-align: right; }
+
+    .ranking-head > span { color: var(--muted); font-family: var(--mono); font-size: .6rem; letter-spacing: .08em; }
+    .ranking-list { margin: 18px 0 0; padding: 0; list-style: none; }
+    .ranking-item { display: grid; grid-template-columns: 28px 1fr auto auto; gap: 9px; align-items: center; min-height: 42px; border-bottom: 1px solid rgba(32, 37, 31, .08); font-size: .75rem; }
+    .ranking-item:last-child { border-bottom: 0; }
+    .ranking-item.current { margin-right: -8px; margin-left: -8px; padding-right: 8px; padding-left: 8px; border-radius: 8px; background: rgba(215, 239, 104, .32); }
+    .ranking-position { color: var(--muted); font-family: var(--mono); font-size: .68rem; }
+    .ranking-position.top { color: var(--coral); font-size: .9rem; }
+    .ranking-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .ranking-accuracy { color: var(--muted); font-family: var(--mono); font-size: .6rem; }
+    .ranking-wpm { font-family: var(--mono); font-size: .78rem; font-weight: 700; }
+    .ranking-wpm small { margin-left: 2px; color: var(--muted); font-size: .56rem; font-weight: 400; }
+    .ranking-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 16px; color: var(--muted); font-size: .62rem; }
+    .ranking-foot .average-pill { padding: 5px 8px; border-radius: 99px; background: var(--paper); font-family: var(--mono); }
+    .ranking-foot .average-pill strong { color: var(--ink); }
+
+    .contact-banner { display: flex; align-items: center; justify-content: space-between; gap: 25px; margin: 105px 0 0; padding: 30px 34px; border-radius: var(--radius-lg); background: var(--ink); color: var(--white); }
+    .contact-banner p { margin: 0; font-family: var(--display); font-size: clamp(1.2rem, 3vw, 1.8rem); letter-spacing: .02em; line-height: 1.5; }
+    .contact-banner p span { color: var(--lime); }
+    .contact-link { display: inline-flex; align-items: center; gap: 9px; min-height: 44px; padding: 0 17px; border: 1px solid var(--lime); border-radius: 99px; color: var(--lime); font-size: .72rem; font-weight: 800; white-space: nowrap; transition: background .2s ease, color .2s ease; }
+    .contact-link:hover { background: var(--lime); color: var(--ink); }
+    footer { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 27px 0 36px; color: var(--muted); font-family: var(--mono); font-size: .62rem; letter-spacing: .05em; }
+    .footer-links { display: flex; gap: 18px; }
+    .footer-links a:hover { color: var(--coral); }
+
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr 245px; gap: 28px; }
+      .game-layout { grid-template-columns: 1fr; }
+      .side-column { grid-template-columns: repeat(2, 1fr); }
+      .result-layout { grid-template-columns: 1fr; }
     }
-    .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 20px; }
-    .button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      min-height: 51px;
-      padding: 0 22px;
-      border: 1px solid var(--ink);
-      border-radius: 99px;
-      background: var(--ink);
-      color: var(--white);
-      font-size: .86rem;
-      font-weight: 700;
-      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+    @media (max-width: 680px) {
+      .page-shell { width: min(100% - 32px, 540px); }
+      .site-header { min-height: 76px; }
+      .header-meta { gap: 0; }
+      .header-meta .season { display: none; }
+      .hero { grid-template-columns: 1fr; gap: 29px; padding: 52px 0 48px; }
+      h1 { font-size: clamp(3rem, 14vw, 4.5rem); }
+      .average-card { max-width: 290px; }
+      .game-head { align-items: start; flex-direction: column; gap: 10px; padding: 21px 19px 17px; }
+      .game-content { padding: 21px 19px 23px; }
+      .stats-grid { gap: 6px; margin-bottom: 20px; }
+      .stat { padding: 11px 10px 10px; }
+      .stat-value { font-size: 1.18rem; }
+      .typing-box { padding: 18px 15px 16px; }
+      .mode-row { align-items: start; flex-direction: column; gap: 9px; }
+      .control-row { flex-wrap: wrap; }
+      .shortcut { width: 100%; margin-left: 0; }
+      .side-column { grid-template-columns: 1fr; }
+      .section { padding-top: 76px; }
+      .section-heading { align-items: start; flex-direction: column; gap: 8px; }
+      .section-description { text-align: left; }
+      .result-card, .ranking-card { padding: 21px 19px 23px; }
+      .result-main-stat strong { font-size: 3.4rem; }
+      .contact-banner { align-items: start; flex-direction: column; margin-top: 76px; padding: 27px 22px; }
+      footer { align-items: start; flex-direction: column; gap: 13px; }
     }
-    .button:hover { box-shadow: 0 8px 18px rgba(32, 37, 31, .15); transform: translateY(-3px); }
-    .button .arrow { font-size: 1.1rem; line-height: 1; }
-    .text-link { display: inline-flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--ink); padding-bottom: 2px; font-size: .86rem; font-weight: 700; }
-    .text-link span { transition: transform .2s ease; }
-    .text-link:hover span { transform: translateX(4px); }
-
-    .portrait-wrap { position: relative; max-width: 490px; margin-left: auto; }
-    .portrait-wrap::before {
-      position: absolute;
-      top: -25px;
-      right: -28px;
-      width: 94px;
-      height: 94px;
-      border: 1px solid var(--ink);
-      border-radius: 50%;
-      content: "";
-      opacity: .5;
-    }
-    .portrait-wrap::after {
-      position: absolute;
-      right: -44px;
-      bottom: -38px;
-      width: 110px;
-      height: 110px;
-      border-radius: 36% 64% 56% 44%;
-      content: "";
-      background: var(--coral);
-      opacity: .92;
-      transform: rotate(25deg);
-      z-index: -1;
-    }
-    .portrait {
-      position: relative;
-      min-height: 470px;
-      overflow: hidden;
-      border-radius: var(--radius-lg);
-      background: linear-gradient(145deg, #d9e9b1 0%, #afd8d4 45%, #bca9ee 100%);
-      box-shadow: var(--shadow);
-      isolation: isolate;
-    }
-    .portrait::before, .portrait::after { position: absolute; border-radius: 50%; content: ""; z-index: -1; }
-    .portrait::before { top: -75px; left: -61px; width: 245px; height: 245px; background: var(--lime); opacity: .8; }
-    .portrait::after { right: -73px; bottom: -98px; width: 285px; height: 285px; background: var(--coral); opacity: .55; }
-    .portrait-label {
-      position: absolute;
-      top: 24px;
-      left: 25px;
-      padding: 6px 12px;
-      border: 1px solid rgba(32, 37, 31, .35);
-      border-radius: 99px;
-      background: rgba(255, 253, 247, .28);
-      backdrop-filter: blur(8px);
-      font-size: .66rem;
-      font-weight: 800;
-      letter-spacing: .15em;
-    }
-    .portrait-caption {
-      position: absolute;
-      right: 25px;
-      bottom: 22px;
-      left: 25px;
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      color: var(--white);
-    }
-    .portrait-caption strong { display: block; font-family: var(--display); font-size: 1.55rem; font-weight: 600; letter-spacing: .02em; }
-    .portrait-caption small { display: block; margin-top: 2px; font-size: .69rem; letter-spacing: .12em; opacity: .88; }
-    .portrait-caption .mark { font-family: var(--display); font-size: 2.7rem; line-height: .8; opacity: .8; }
-    .portrait svg { position: absolute; right: 4%; bottom: 0; left: 4%; width: 92%; height: 90%; }
-
-    .ticker {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      overflow: hidden;
-      min-height: 52px;
-      margin-bottom: 96px;
-      border-top: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-      color: var(--muted);
-      font-size: .72rem;
-      font-weight: 800;
-      letter-spacing: .17em;
-      white-space: nowrap;
-    }
-    .ticker-track { display: flex; align-items: center; gap: 20px; animation: ticker 24s linear infinite; }
-    .ticker .dot { width: 6px; height: 6px; flex: 0 0 auto; border-radius: 50%; background: var(--coral); }
-    @keyframes ticker { to { transform: translateX(-50%); } }
-
-    .section { padding: 0 0 112px; }
-    .section-heading { display: grid; grid-template-columns: .72fr 1fr; gap: 30px; align-items: start; margin-bottom: 43px; }
-    .section-kicker { margin: 8px 0 0; color: var(--coral); font-size: .73rem; font-weight: 800; letter-spacing: .18em; }
-    h2 { margin: 0; font-size: clamp(2rem, 4.5vw, 3.55rem); letter-spacing: -.07em; line-height: 1.25; }
-    h2 span { font-family: var(--display); font-weight: 500; }
-    .section-intro { max-width: 550px; margin: 11px 0 0; color: var(--muted); font-size: .96rem; }
-
-    .about-grid { display: grid; grid-template-columns: 1.25fr .75fr; gap: 20px; }
-    .about-card { min-height: 290px; padding: clamp(26px, 4vw, 43px); border-radius: var(--radius-md); background: var(--white); }
-    .about-card p { max-width: 620px; margin: 0; font-size: clamp(1.05rem, 2vw, 1.3rem); letter-spacing: .01em; line-height: 2; }
-    .about-card p strong { color: var(--coral); font-weight: 700; }
-    .quote-card { display: flex; flex-direction: column; justify-content: space-between; background: var(--lavender); }
-    .quote-mark { color: var(--coral); font-family: Georgia, serif; font-size: 4.8rem; line-height: .6; }
-    .quote-card blockquote { margin: 0; font-family: var(--display); font-size: 1.45rem; letter-spacing: .02em; line-height: 1.75; }
-    .quote-card cite { color: var(--muted); font-size: .74rem; font-style: normal; letter-spacing: .11em; }
-
-    .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-    .skill-card { min-height: 210px; padding: 27px 28px 25px; border: 1px solid var(--line); border-radius: var(--radius-md); transition: transform .25s ease, background .25s ease; }
-    .skill-card:hover { background: var(--white); transform: translateY(-5px); }
-    .skill-number { color: var(--coral); font-family: Georgia, serif; font-size: 1rem; font-style: italic; }
-    .skill-card h3 { margin: 28px 0 6px; font-size: 1.1rem; letter-spacing: -.02em; }
-    .skill-card p { margin: 0; color: var(--muted); font-size: .83rem; line-height: 1.75; }
-    .skill-icon { float: right; width: 34px; height: 34px; }
-    .skill-icon svg { width: 100%; height: 100%; fill: none; stroke: var(--ink); stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.6; }
-
-    .journey { display: grid; grid-template-columns: .82fr 1.18fr; gap: 70px; align-items: start; }
-    .journey-note { position: sticky; top: 30px; }
-    .journey-note p { max-width: 300px; margin: 16px 0 0; color: var(--muted); font-size: .9rem; }
-    .journey-list { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
-    .journey-item { display: grid; grid-template-columns: 112px 1fr; gap: 26px; padding: 26px 0; border-bottom: 1px solid var(--line); }
-    .journey-year { color: var(--coral); font-size: .75rem; font-weight: 800; letter-spacing: .12em; }
-    .journey-item h3 { margin: 0 0 5px; font-size: 1.05rem; }
-    .journey-item p { margin: 0; color: var(--muted); font-size: .83rem; }
-
-    .contact-card { position: relative; display: grid; grid-template-columns: 1fr auto; gap: 28px; align-items: end; overflow: hidden; min-height: 310px; padding: clamp(30px, 6vw, 62px); border-radius: var(--radius-lg); background: var(--ink); color: var(--white); }
-    .contact-card::before { position: absolute; top: -145px; right: -15px; width: 310px; height: 310px; border: 1px solid rgba(215, 239, 104, .6); border-radius: 50%; content: ""; }
-    .contact-card::after { position: absolute; top: 54px; right: 64px; width: 19px; height: 19px; border-radius: 50%; content: ""; background: var(--lime); box-shadow: 38px 82px 0 -5px var(--coral), -31px 124px 0 -8px var(--lavender); }
-    .contact-card .section-kicker { position: relative; z-index: 1; color: var(--lime); }
-    .contact-card h2 { position: relative; z-index: 1; max-width: 620px; margin-top: 14px; color: var(--white); }
-    .contact-card h2 span { color: var(--lime); }
-    .contact-card .button { position: relative; z-index: 1; border-color: var(--lime); background: var(--lime); color: var(--ink); }
-    .contact-card .button:hover { box-shadow: 0 9px 22px rgba(215, 239, 104, .25); }
-
-    footer { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 30px 0 38px; color: var(--muted); font-size: .72rem; letter-spacing: .08em; }
-    .socials { display: flex; gap: 20px; }
-    .socials a { transition: color .2s ease; }
-    .socials a:hover { color: var(--coral); }
-
-    @media (max-width: 820px) {
-      .page-shell { width: min(100% - 34px, 620px); }
-      .topbar { min-height: 75px; }
-      .nav { gap: 14px; font-size: .75rem; }
-      .nav a:not(.nav-cta) { display: none; }
-      .nav-cta { padding: 8px 13px; }
-      .hero { grid-template-columns: 1fr; gap: 42px; min-height: auto; padding: 57px 0 65px; }
-      h1 { font-size: clamp(3rem, 14vw, 5.1rem); }
-      .portrait-wrap { width: min(100%, 490px); margin: 0 auto; }
-      .portrait { min-height: min(115vw, 460px); }
-      .ticker { margin-bottom: 72px; }
-      .section { padding-bottom: 78px; }
-      .section-heading { grid-template-columns: 1fr; gap: 8px; margin-bottom: 28px; }
-      .section-kicker { margin-top: 0; }
-      .about-grid, .journey { grid-template-columns: 1fr; gap: 14px; }
-      .quote-card { min-height: 235px; }
-      .skills-grid { grid-template-columns: 1fr; }
-      .skill-card { min-height: 170px; }
-      .skill-card h3 { margin-top: 20px; }
-      .journey { gap: 33px; }
-      .journey-note { position: static; }
-      .journey-note p { max-width: none; }
-      .contact-card { grid-template-columns: 1fr; align-items: start; min-height: 350px; }
-      .contact-card .button { justify-self: start; }
-      footer { align-items: flex-start; flex-direction: column; gap: 12px; }
+    @media (max-width: 385px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .stats-grid .stat:nth-child(3), .stats-grid .stat:nth-child(4) { display: none; }
+      .result-metrics { grid-template-columns: 1fr 1fr; }
+      .result-metric:last-child { grid-column: 1 / -1; margin-top: 5px; }
     }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
@@ -316,157 +281,534 @@
 </head>
 <body>
   <div class="page-shell">
-    <header class="topbar">
-      <a class="brand" href="#top" aria-label="Sakurako トップへ">
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Sakurako Type Lab トップへ">
         <span class="brand-mark" aria-hidden="true">S</span>
-        <span>SAKURAKO / PROFILE</span>
+        <span class="brand-copy"><strong>SAKURAKO</strong><small>TYPE LAB / 001</small></span>
       </a>
-      <nav class="nav" aria-label="メインナビゲーション">
-        <a href="#about">About</a>
-        <a href="#skills">Skills</a>
-        <a class="nav-cta" href="#contact">Let’s talk&nbsp; ↗</a>
-      </nav>
+      <div class="header-meta"><span class="live-status">LIVE PRACTICE</span><span class="season">SEASON 01</span></div>
     </header>
 
     <main id="top">
       <section class="hero" aria-labelledby="hero-title">
         <div>
-          <p class="eyebrow">HELLO, I'M SAKURAKO</p>
-          <h1 id="hero-title">日々の好奇心を、<em>かたち</em>に。</h1>
-          <p class="hero-copy">東京を拠点に活動するデザイナー・ライター。人の気持ちが少し軽くなるような、伝わる体験をつくっています。</p>
-          <div class="hero-actions">
-            <a class="button" href="#about">プロフィールを見る <span class="arrow" aria-hidden="true">↓</span></a>
-            <a class="text-link" href="#contact">お問い合わせ <span aria-hidden="true">↗</span></a>
-          </div>
+          <p class="eyebrow">A LITTLE PRACTICE, EVERY DAY</p>
+          <h1 id="hero-title">指先で、<em>今日の自己ベスト</em>を。</h1>
+          <p class="hero-copy">ローマ字で文章を入力して、あなたのWPMを測ってみましょう。結果は平均値とランキングで振り返れます。</p>
         </div>
+        <div class="average-card" aria-label="コミュニティ平均WPM">
+          <span class="average-label">COMMUNITY AVERAGE</span>
+          <div class="average-number"><strong id="heroAverage">43</strong><span>WPM</span></div>
+          <p class="average-note">みんなの平均 / 43 WPM · 正確率 94%</p>
+          <div class="mini-track" aria-hidden="true"><span></span></div>
+        </div>
+      </section>
 
-        <div class="portrait-wrap" aria-label="Sakurakoのイラスト">
-          <div class="portrait">
-            <span class="portrait-label">CREATIVE / 2024—</span>
-            <svg viewBox="0 0 460 470" role="img" aria-label="植物と人物を描いた抽象的なイラスト">
-              <defs>
-                <linearGradient id="shirt" x1="0" x2="1" y1="0" y2="1">
-                  <stop offset="0" stop-color="#f7f4ec" stop-opacity=".96"/>
-                  <stop offset="1" stop-color="#d8cef7" stop-opacity=".9"/>
-                </linearGradient>
-                <linearGradient id="hair" x1="0" x2="1" y1="0" y2="1">
-                  <stop offset="0" stop-color="#20251f"/>
-                  <stop offset="1" stop-color="#454d3c"/>
-                </linearGradient>
-              </defs>
-              <path d="M82 454c12-91 67-139 145-139 83 0 128 51 146 139H82Z" fill="url(#shirt)" stroke="#20251f" stroke-width="2"/>
-              <path d="M183 329c14 22 31 32 52 32 24 0 43-11 57-34l-5-44h-98Z" fill="#e8b5a9" stroke="#20251f" stroke-width="2"/>
-              <path d="M171 177c0-65 39-105 92-105 65 0 102 50 90 124-8 58-35 95-92 95-54 0-90-46-90-114Z" fill="#e8b5a9" stroke="#20251f" stroke-width="2"/>
-              <path d="M165 190c-19-90 25-143 95-143 66 0 112 42 104 113-31-13-44-44-51-76-35 39-76 53-148 54Z" fill="url(#hair)" stroke="#20251f" stroke-width="2"/>
-              <path d="M194 197c14 9 26 12 39 11M286 207c12-2 22-8 32-18M259 233c7 4 14 4 21 0" fill="none" stroke="#20251f" stroke-linecap="round" stroke-width="2.4"/>
-              <path d="M195 170c8-5 16-5 25-1M290 168c9-5 18-3 25 3" fill="none" stroke="#20251f" stroke-linecap="round" stroke-width="2.4"/>
-              <path d="M180 178c3-13 14-21 29-20M285 158c16-1 27 6 31 19" fill="none" stroke="#20251f" stroke-linecap="round" stroke-width="2"/>
-              <path d="M179 138c-6 7-11 16-12 26M336 129c7 9 12 18 13 29" fill="none" stroke="#20251f" stroke-linecap="round" stroke-width="2"/>
-              <path d="M153 454c-1-58 3-112 29-151 21 31 53 47 92 47 39 0 72-17 91-47 27 41 33 95 33 151" fill="none" stroke="#20251f" stroke-width="2"/>
-              <path d="M109 433c-4-92 6-149 40-194M99 299c-19-27-20-60-10-85 29 11 45 37 42 68M102 266c-24-2-45-18-55-40 28-8 53 3 67 24M142 232c-7-27 0-53 18-72 17 22 17 50 3 70" fill="none" stroke="#20251f" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4"/>
-              <path d="M66 224c25 4 52 13 77 30" fill="none" stroke="#20251f" stroke-linecap="round" stroke-width="1.6"/>
-              <circle cx="98" cy="298" r="6" fill="#ff806a"/>
-              <circle cx="143" cy="231" r="5" fill="#d7ef68"/>
-            </svg>
-            <div class="portrait-caption">
-              <div><strong>桜子 / Sakurako</strong><small>DESIGN · WORDS · CURIOUSITY</small></div>
-              <span class="mark" aria-hidden="true">✳</span>
+      <section class="game-layout" id="game" aria-labelledby="game-title">
+        <div class="game-card">
+          <div class="game-head">
+            <div>
+              <p class="card-kicker">01 / START A ROUND</p>
+              <h2 id="game-title">Type the line below.</h2>
+            </div>
+            <span class="game-state" id="gameState" data-state="ready">READY TO PLAY</span>
+          </div>
+          <div class="game-content">
+            <div class="mode-row">
+              <span class="mode-label">CHOOSE YOUR TIME</span>
+              <div class="mode-switch" role="tablist" aria-label="プレイ時間">
+                <button class="mode-button" type="button" data-time="15" role="tab" aria-selected="false">15s</button>
+                <button class="mode-button" type="button" data-time="30" role="tab" aria-selected="true">30s</button>
+                <button class="mode-button" type="button" data-time="60" role="tab" aria-selected="false">60s</button>
+              </div>
+            </div>
+
+            <div class="stats-grid" aria-live="polite" aria-label="現在のスコア">
+              <div class="stat timer"><span class="stat-label">TIME LEFT</span><strong class="stat-value" id="timeLeft">00:30</strong></div>
+              <div class="stat"><span class="stat-label">LIVE WPM</span><strong class="stat-value" id="liveWpm">0<span>WPM</span></strong></div>
+              <div class="stat"><span class="stat-label">ACCURACY</span><strong class="stat-value" id="liveAccuracy">100<span>%</span></strong></div>
+              <div class="stat"><span class="stat-label">BEST STREAK</span><strong class="stat-value" id="liveStreak">0<span>chars</span></strong></div>
+            </div>
+
+            <div class="typing-box">
+              <div class="typing-label"><span>TYPE THIS ROMAJI</span><span class="phrase-count" id="phraseCount">LINE 01</span></div>
+              <p class="japanese-prompt" id="japanesePrompt">小さな好奇心を、今日の一歩に変えてみよう。</p>
+              <div class="target-text" id="targetText" aria-label="入力するローマ字">chiisana koukishin o, kyou no ippo ni kaete miyou.</div>
+              <div class="input-wrap">
+                <input class="typing-input" id="typingInput" type="text" inputmode="latin" autocomplete="off" autocapitalize="off" spellcheck="false" disabled placeholder="ゲーム開始後、ここに入力…" aria-label="ローマ字入力欄">
+                <span class="input-key" aria-hidden="true">↵</span>
+              </div>
+              <div class="progress-track" aria-hidden="true"><span id="progressFill"></span></div>
+              <p class="typing-note">表示された文章のローマ字を入力してください。WPMは「正しく入力した5文字＝1 word」で計算します。</p>
+            </div>
+
+            <div class="control-row">
+              <button class="primary-button" id="startButton" type="button">ゲーム開始 <span class="arrow" aria-hidden="true">→</span></button>
+              <button class="secondary-button" id="resetButton" type="button">リセット</button>
+              <span class="shortcut"><kbd>Space</kbd> で開始 / <kbd>Tab</kbd> で入力欄へ</span>
             </div>
           </div>
         </div>
+
+        <aside class="side-column" aria-label="プレイヤー情報と遊び方">
+          <div class="side-card profile">
+            <h3>Your player card</h3>
+            <label for="aliasInput">YOUR ALIAS</label>
+            <input class="alias-input" id="aliasInput" type="text" maxlength="14" value="Sakurako" autocomplete="nickname">
+            <p class="side-note">ランキングに表示する名前です。このブラウザにだけ保存されます。</p>
+            <div class="personal-best"><span>PERSONAL BEST</span><strong id="personalBest">—<small>WPM</small></strong></div>
+          </div>
+          <div class="side-card">
+            <h3>How to play</h3>
+            <ol class="steps">
+              <li class="step"><span class="step-number">1</span><div><strong>時間を選ぶ</strong><p>15 / 30 / 60秒から選択。</p></div></li>
+              <li class="step"><span class="step-number">2</span><div><strong>文章を入力する</strong><p>表示されたローマ字を入力。</p></div></li>
+              <li class="step"><span class="step-number">3</span><div><strong>結果を比べる</strong><p>平均とランキングをチェック。</p></div></li>
+            </ol>
+          </div>
+        </aside>
       </section>
 
-      <div class="ticker" aria-label="活動キーワード">
-        <div class="ticker-track">
-          <span>DESIGN WITH EMPATHY</span><i class="dot" aria-hidden="true"></i><span>WORDS THAT MOVE</span><i class="dot" aria-hidden="true"></i><span>STAY CURIOUS</span><i class="dot" aria-hidden="true"></i><span>DESIGN WITH EMPATHY</span><i class="dot" aria-hidden="true"></i><span>WORDS THAT MOVE</span><i class="dot" aria-hidden="true"></i><span>STAY CURIOUS</span><i class="dot" aria-hidden="true"></i>
-        </div>
-      </div>
-
-      <section class="section" id="about" aria-labelledby="about-title">
+      <section class="section" id="results" aria-labelledby="results-title">
         <div class="section-heading">
-          <p class="section-kicker">01 / ABOUT ME</p>
-          <div>
-            <h2 id="about-title">好きなものを集めて、<br><span>誰かの明日を少し楽しく。</span></h2>
-            <p class="section-intro">観察して、考えて、試してみる。その小さな繰り返しから、心地よいアイデアが生まれると信じています。</p>
-          </div>
+          <div><p class="section-kicker">02 / YOUR RESULT</p><h2 id="results-title">数字で見る、今日の調子。</h2></div>
+          <p class="section-description">1ラウンド終えると、コミュニティ平均との距離がここに表示されます。</p>
         </div>
-        <div class="about-grid">
-          <article class="about-card">
-            <p>はじめまして、桜子です。<strong>デザインと文章</strong>を行き来しながら、サービスやブランドの「らしさ」を見つけ、伝わる形に整えています。休日は喫茶店で読書をしたり、知らない街を散歩したりしています。</p>
+        <div class="result-layout">
+          <article class="result-card" id="resultCard" data-state="empty">
+            <div class="result-head"><div><p class="card-kicker">LATEST ROUND</p><h2>Round summary</h2></div><span class="result-badge" id="resultBadge">AWAITING RUN</span></div>
+            <div class="result-empty" id="resultEmpty"><div><span class="empty-icon" aria-hidden="true">✳</span><p>ゲームをプレイすると<br>ここに結果が表示されます。</p></div></div>
+            <div class="result-data" id="resultData" aria-live="polite">
+              <div class="result-main-stat"><strong id="resultWpm">0</strong><span>WPM</span></div>
+              <p class="result-message" id="resultMessage">平均値との比較を準備しています。</p>
+              <div class="result-metrics">
+                <div class="result-metric"><span>ACCURACY</span><strong id="resultAccuracy">0<small>%</small></strong></div>
+                <div class="result-metric"><span>RIGHT CHARS</span><strong id="resultChars">0</strong></div>
+                <div class="result-metric"><span>ERRORS</span><strong id="resultErrors">0</strong></div>
+              </div>
+              <div class="comparison">
+                <div class="comparison-title"><span>WPM COMPARISON</span><strong id="percentileLabel">—</strong></div>
+                <div class="compare-bars">
+                  <div class="bar-row you"><span>YOU</span><div class="bar-track"><span id="youBar"></span></div><em id="youBarValue">0</em></div>
+                  <div class="bar-row average"><span>AVERAGE</span><div class="bar-track"><span id="averageBar"></span></div><em id="averageBarValue">43</em></div>
+                </div>
+              </div>
+            </div>
           </article>
-          <article class="about-card quote-card">
-            <span class="quote-mark" aria-hidden="true">“</span>
-            <blockquote>うまくいくまで、<br>おもしろがる。</blockquote>
-            <cite>MY LITTLE MOTTO</cite>
+
+          <article class="ranking-card" id="ranking">
+            <div class="ranking-head"><div><p class="card-kicker">03 / LEADERBOARD</p><h2>Today’s ranking</h2></div><span>TOP 07</span></div>
+            <ol class="ranking-list" id="rankingList" aria-label="タイピングランキング"></ol>
+            <div class="ranking-foot"><span>このブラウザ内で保存</span><span class="average-pill">AVG <strong id="rankingAverage">43</strong> WPM</span></div>
           </article>
         </div>
       </section>
 
-      <section class="section" id="skills" aria-labelledby="skills-title">
-        <div class="section-heading">
-          <p class="section-kicker">02 / WHAT I DO</p>
-          <div>
-            <h2 id="skills-title">できること、<br><span>大切にしていること。</span></h2>
-          </div>
-        </div>
-        <div class="skills-grid">
-          <article class="skill-card">
-            <span class="skill-number">01</span>
-            <span class="skill-icon" aria-hidden="true"><svg viewBox="0 0 36 36"><path d="M6 28 27 7l3 3L9 31H5v-4Z"/><path d="m22 12 3 3M8 9h7M11.5 5.5v7M27 25h5M29.5 22.5v5"/></svg></span>
-            <h3>Brand &amp; Graphic Design</h3>
-            <p>ロゴ、印刷物、ビジュアル設計。らしさを見つけて、目に見える形へ。</p>
-          </article>
-          <article class="skill-card">
-            <span class="skill-number">02</span>
-            <span class="skill-icon" aria-hidden="true"><svg viewBox="0 0 36 36"><path d="M7 8h22v17H13l-6 6V8Z"/><path d="M12 14h12M12 19h8"/></svg></span>
-            <h3>Writing &amp; Editing</h3>
-            <p>インタビュー、コピー、記事編集。相手の言葉をすくい、温度を残します。</p>
-          </article>
-          <article class="skill-card">
-            <span class="skill-number">03</span>
-            <span class="skill-icon" aria-hidden="true"><svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="11"/><path d="M18 11v7l5 3M18 4v3M18 29v3M4 18h3M29 18h3"/></svg></span>
-            <h3>Direction &amp; Curiosity</h3>
-            <p>企画から伴走まで。問いを立てて、チームと一緒により良い答えを探します。</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="section" aria-labelledby="journey-title">
-        <div class="journey">
-          <div class="journey-note">
-            <p class="section-kicker">03 / MY JOURNEY</p>
-            <h2 id="journey-title">これまでの<br><span>歩み。</span></h2>
-            <p>寄り道も、気づきも、今の自分をつくる大切なピースです。</p>
-          </div>
-          <ol class="journey-list">
-            <li class="journey-item"><span class="journey-year">2024 — NOW</span><div><h3>Freelance Creative</h3><p>デザインと編集を軸に、ブランドの立ち上げやウェブ制作に携わる。</p></div></li>
-            <li class="journey-item"><span class="journey-year">2021 — 2024</span><div><h3>Design Studio / Designer</h3><p>小さなチームで、企画・制作・運用まで幅広く経験。</p></div></li>
-            <li class="journey-item"><span class="journey-year">2017 — 2021</span><div><h3>大学でグラフィックデザインを専攻</h3><p>色と形の基礎を学びながら、街と人を観察する日々。</p></div></li>
-          </ol>
-        </div>
-      </section>
-
-      <section class="section" id="contact" aria-labelledby="contact-title">
-        <div class="contact-card">
-          <div>
-            <p class="section-kicker">04 / SAY HELLO</p>
-            <h2 id="contact-title">一緒に、<br><span>おもしろいことを。</span></h2>
-          </div>
-          <a class="button" href="mailto:hello@sakurako.example">hello@sakurako.example <span class="arrow" aria-hidden="true">↗</span></a>
-        </div>
+      <section class="contact-banner" aria-label="メッセージ">
+        <p>少しずつ打って、<br><span>昨日の自分を追い越そう。</span></p>
+        <a class="contact-link" href="#game">もう一度プレイする <span aria-hidden="true">↗</span></a>
       </section>
     </main>
 
     <footer>
-      <span>© <span id="year">2024</span> SAKURAKO. MADE WITH CURIOSITY.</span>
-      <div class="socials" aria-label="ソーシャルリンク">
-        <a href="https://www.instagram.com/" target="_blank" rel="noreferrer">Instagram</a>
-        <a href="https://x.com/" target="_blank" rel="noreferrer">X / Twitter</a>
-      </div>
+      <span>© <span id="year">2026</span> SAKURAKO TYPE LAB.</span>
+      <div class="footer-links"><a href="#game">PLAY</a><a href="#ranking">RANKING</a></div>
     </footer>
   </div>
+
   <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
+    (() => {
+      'use strict';
+
+      const AVERAGE_WPM = 43;
+      const AVERAGE_ACCURACY = 94;
+      const RANKING_KEY = 'sakurako-type-lab-ranking-v1';
+      const PB_KEY = 'sakurako-type-lab-personal-best-v1';
+      const ALIAS_KEY = 'sakurako-type-lab-alias-v1';
+      const phrases = [
+        { jp: '小さな好奇心を、今日の一歩に変えてみよう。', text: 'chiisana koukishin o, kyou no ippo ni kaete miyou.' },
+        { jp: 'アイデアは、試してみることで形になっていく。', text: 'aidea wa, tameshite miru koto de katachi ni natte iku.' },
+        { jp: '朝の光がカーテンをすり抜けて、静かな一日が始まる。', text: 'asa no hikari ga kaaten o surinukete, shizuka na ichinichi ga hajimaru.' },
+        { jp: '迷ったら、まず小さくつくってみる。', text: 'mayottara, mazu chiisaku tsukutte miru.' },
+        { jp: '好きなものを集めると、自分の輪郭が見えてくる。', text: 'suki na mono o atsumeru to, jibun no rinkaku ga miete kuru.' },
+        { jp: 'うまくいくまで、おもしろがる。', text: 'umaku iku made, omoshirogaru.' },
+        { jp: '言葉にできない気持ちも、ゆっくり育てていこう。', text: 'kotoba ni dekinai kimochi mo, yukkuri sodatete ikou.' }
+      ];
+      const seedRanking = [
+        { name: 'Mika', wpm: 74, accuracy: 98 },
+        { name: 'Sora', wpm: 66, accuracy: 96 },
+        { name: 'Rin', wpm: 58, accuracy: 95 },
+        { name: 'Aoi', wpm: 51, accuracy: 93 },
+        { name: 'Yuna', wpm: 44, accuracy: 96 },
+        { name: 'Haru', wpm: 39, accuracy: 91 },
+        { name: 'Nagi', wpm: 32, accuracy: 90 }
+      ];
+
+      const els = {
+        alias: document.getElementById('aliasInput'),
+        averageHero: document.getElementById('heroAverage'),
+        rankingAverage: document.getElementById('rankingAverage'),
+        personalBest: document.getElementById('personalBest'),
+        gameState: document.getElementById('gameState'),
+        timeLeft: document.getElementById('timeLeft'),
+        liveWpm: document.getElementById('liveWpm'),
+        liveAccuracy: document.getElementById('liveAccuracy'),
+        liveStreak: document.getElementById('liveStreak'),
+        phraseCount: document.getElementById('phraseCount'),
+        japanesePrompt: document.getElementById('japanesePrompt'),
+        targetText: document.getElementById('targetText'),
+        typingInput: document.getElementById('typingInput'),
+        progressFill: document.getElementById('progressFill'),
+        startButton: document.getElementById('startButton'),
+        resetButton: document.getElementById('resetButton'),
+        resultCard: document.getElementById('resultCard'),
+        resultBadge: document.getElementById('resultBadge'),
+        resultWpm: document.getElementById('resultWpm'),
+        resultMessage: document.getElementById('resultMessage'),
+        resultAccuracy: document.getElementById('resultAccuracy'),
+        resultChars: document.getElementById('resultChars'),
+        resultErrors: document.getElementById('resultErrors'),
+        percentileLabel: document.getElementById('percentileLabel'),
+        youBar: document.getElementById('youBar'),
+        averageBar: document.getElementById('averageBar'),
+        youBarValue: document.getElementById('youBarValue'),
+        averageBarValue: document.getElementById('averageBarValue'),
+        rankingList: document.getElementById('rankingList'),
+        year: document.getElementById('year')
+      };
+
+      const state = {
+        mode: 30,
+        running: false,
+        startedAt: 0,
+        timerId: null,
+        transitionId: null,
+        timeLeft: 30,
+        phraseNumber: 0,
+        currentPhrase: phrases[0],
+        targetChars: Array.from(phrases[0].text),
+        committedCorrect: 0,
+        committedErrors: 0,
+        currentCorrect: 0,
+        currentErrors: 0,
+        bestStreak: 0,
+        transitioning: false
+      };
+
+      function readStorage(key, fallback) {
+        try {
+          const value = window.localStorage.getItem(key);
+          return value ? JSON.parse(value) : fallback;
+        } catch (error) {
+          return fallback;
+        }
+      }
+
+      function writeStorage(key, value) {
+        try { window.localStorage.setItem(key, JSON.stringify(value)); } catch (error) { /* storage is optional */ }
+      }
+
+      function cleanAlias(value) {
+        const cleaned = String(value || '').replace(/[<>\n\r]/g, '').trim().slice(0, 14);
+        return cleaned || 'Sakurako';
+      }
+
+      function getRanking() {
+        const stored = readStorage(RANKING_KEY, null);
+        if (!Array.isArray(stored) || !stored.length) return seedRanking.slice();
+        return stored.filter((entry) => entry && typeof entry.name === 'string' && Number.isFinite(Number(entry.wpm))).map((entry) => ({
+          name: cleanAlias(entry.name),
+          wpm: Math.max(0, Math.round(Number(entry.wpm))),
+          accuracy: Math.max(0, Math.min(100, Math.round(Number(entry.accuracy) || 0))),
+          current: Boolean(entry.current)
+        })).sort((a, b) => b.wpm - a.wpm).slice(0, 20);
+      }
+
+      function formatTime(seconds) {
+        const safeSeconds = Math.max(0, Math.ceil(seconds));
+        return `00:${String(safeSeconds).padStart(2, '0')}`;
+      }
+
+      function setGameState(label, status) {
+        els.gameState.textContent = label;
+        els.gameState.dataset.state = status;
+      }
+
+      function setMode(mode) {
+        state.mode = mode;
+        document.querySelectorAll('.mode-button').forEach((button) => {
+          button.setAttribute('aria-selected', String(Number(button.dataset.time) === mode));
+        });
+        resetGame();
+      }
+
+      function choosePhrase() {
+        state.currentPhrase = phrases[state.phraseNumber % phrases.length];
+        state.phraseNumber += 1;
+        state.targetChars = Array.from(state.currentPhrase.text);
+        state.currentCorrect = 0;
+        state.currentErrors = 0;
+        state.transitioning = false;
+        els.typingInput.value = '';
+        els.japanesePrompt.textContent = state.currentPhrase.jp;
+        els.phraseCount.textContent = `LINE ${String(state.phraseNumber).padStart(2, '0')}`;
+        renderTarget([]);
+      }
+
+      function renderTarget(typedChars) {
+        els.targetText.textContent = '';
+        state.targetChars.forEach((targetChar, index) => {
+          const span = document.createElement('span');
+          const typedChar = typedChars[index];
+          span.textContent = targetChar;
+          if (typedChar !== undefined) span.className = typedChar === targetChar ? 'correct' : 'incorrect';
+          else if (index === typedChars.length) span.className = 'current';
+          else span.className = 'upcoming';
+          els.targetText.appendChild(span);
+        });
+        const progress = state.targetChars.length ? Math.min(100, (typedChars.length / state.targetChars.length) * 100) : 0;
+        els.progressFill.style.width = `${progress}%`;
+      }
+
+      function currentInputStats() {
+        const chars = Array.from(els.typingInput.value).slice(0, state.targetChars.length);
+        let correct = 0;
+        let errors = 0;
+        for (let index = 0; index < chars.length; index += 1) {
+          if (chars[index] === state.targetChars[index]) correct += 1;
+          else errors += 1;
+        }
+        let trailing = 0;
+        for (let index = chars.length - 1; index >= 0 && chars[index] === state.targetChars[index]; index -= 1) trailing += 1;
+        return { chars, correct, errors, trailing };
+      }
+
+      function getTotals() {
+        // A completed line waits briefly before changing to the next one. During
+        // that handoff the current input has already been committed, so do not
+        // count it a second time if the timer ends in that small window.
+        const current = state.transitioning ? { correct: 0, errors: 0, chars: [] } : currentInputStats();
+        return {
+          correct: state.committedCorrect + current.correct,
+          errors: state.committedErrors + current.errors,
+          attempted: state.committedCorrect + state.committedErrors + current.chars.length
+        };
+      }
+
+      function calculateWpm(correct, seconds) {
+        if (!correct || !seconds) return 0;
+        return Math.max(0, Math.round((correct / 5) / (seconds / 60)));
+      }
+
+      function updateLiveStats() {
+        const totals = getTotals();
+        const elapsed = state.running ? Math.max(.2, (performance.now() - state.startedAt) / 1000) : state.mode;
+        const wpm = calculateWpm(totals.correct, elapsed);
+        const accuracy = totals.attempted ? Math.round((totals.correct / totals.attempted) * 100) : 100;
+        const current = currentInputStats();
+        state.bestStreak = Math.max(state.bestStreak, current.trailing);
+        els.liveWpm.innerHTML = `${wpm}<span>WPM</span>`;
+        els.liveAccuracy.innerHTML = `${accuracy}<span>%</span>`;
+        els.liveStreak.innerHTML = `${state.bestStreak}<span>chars</span>`;
+      }
+
+      function handleInput() {
+        if (!state.running || state.transitioning) return;
+        const stats = currentInputStats();
+        if (els.typingInput.value !== stats.chars.join('')) els.typingInput.value = stats.chars.join('');
+        state.currentCorrect = stats.correct;
+        state.currentErrors = stats.errors;
+        state.bestStreak = Math.max(state.bestStreak, stats.trailing);
+        renderTarget(stats.chars);
+        updateLiveStats();
+
+        if (stats.chars.length >= state.targetChars.length) {
+          state.committedCorrect += stats.correct;
+          state.committedErrors += stats.errors;
+          state.currentCorrect = 0;
+          state.currentErrors = 0;
+          state.transitioning = true;
+          state.transitionId = window.setTimeout(() => {
+            if (state.running) choosePhrase();
+          }, 170);
+        }
+      }
+
+      function startGame() {
+        if (state.running) return;
+        if (state.transitionId) window.clearTimeout(state.transitionId);
+        state.running = true;
+        state.startedAt = performance.now();
+        state.timeLeft = state.mode;
+        state.committedCorrect = 0;
+        state.committedErrors = 0;
+        state.currentCorrect = 0;
+        state.currentErrors = 0;
+        state.bestStreak = 0;
+        state.phraseNumber = 0;
+        choosePhrase();
+        els.typingInput.disabled = false;
+        els.typingInput.focus();
+        els.startButton.disabled = true;
+        els.startButton.innerHTML = '入力中… <span class="arrow" aria-hidden="true">⌁</span>';
+        setGameState('ROUND IN PROGRESS', 'running');
+        updateLiveStats();
+        updateTimer();
+        state.timerId = window.setInterval(updateTimer, 100);
+      }
+
+      function updateTimer() {
+        if (!state.running) return;
+        const elapsed = (performance.now() - state.startedAt) / 1000;
+        state.timeLeft = Math.max(0, state.mode - elapsed);
+        els.timeLeft.textContent = formatTime(state.timeLeft);
+        updateLiveStats();
+        if (state.timeLeft <= 0) finishGame();
+      }
+
+      function finishGame() {
+        if (!state.running) return;
+        const totals = getTotals();
+        state.running = false;
+        window.clearInterval(state.timerId);
+        state.timerId = null;
+        if (state.transitionId) window.clearTimeout(state.transitionId);
+        state.transitionId = null;
+        state.transitioning = false;
+        const wpm = calculateWpm(totals.correct, state.mode);
+        const accuracy = totals.attempted ? Math.round((totals.correct / totals.attempted) * 100) : 100;
+        const result = { name: cleanAlias(els.alias.value), wpm, accuracy, correct: totals.correct, errors: totals.errors, mode: state.mode, id: Date.now() };
+        els.typingInput.disabled = true;
+        els.startButton.disabled = false;
+        els.startButton.innerHTML = 'もう一度プレイ <span class="arrow" aria-hidden="true">→</span>';
+        els.timeLeft.textContent = '00:00';
+        setGameState('ROUND COMPLETE', 'finished');
+        renderResult(result);
+        saveResult(result);
+      }
+
+      function resetGame() {
+        if (state.timerId) window.clearInterval(state.timerId);
+        if (state.transitionId) window.clearTimeout(state.transitionId);
+        state.running = false;
+        state.timerId = null;
+        state.transitionId = null;
+        state.transitioning = false;
+        state.timeLeft = state.mode;
+        state.committedCorrect = 0;
+        state.committedErrors = 0;
+        state.currentCorrect = 0;
+        state.currentErrors = 0;
+        state.bestStreak = 0;
+        state.phraseNumber = 0;
+        choosePhrase();
+        els.typingInput.disabled = true;
+        els.startButton.disabled = false;
+        els.startButton.innerHTML = 'ゲーム開始 <span class="arrow" aria-hidden="true">→</span>';
+        els.timeLeft.textContent = formatTime(state.mode);
+        setGameState('READY TO PLAY', 'ready');
+        updateLiveStats();
+      }
+
+      function resultPercentile(wpm) {
+        return Math.max(1, Math.min(99, Math.round(50 + (wpm - AVERAGE_WPM) * 1.65)));
+      }
+
+      function renderResult(result) {
+        const difference = result.wpm - AVERAGE_WPM;
+        const accuracyDifference = result.accuracy - AVERAGE_ACCURACY;
+        const percentile = resultPercentile(result.wpm);
+        els.resultCard.dataset.state = 'ready';
+        els.resultBadge.textContent = difference >= 0 ? 'NEW SCORE' : 'ROUND COMPLETE';
+        els.resultWpm.textContent = result.wpm;
+        els.resultAccuracy.innerHTML = `${result.accuracy}<small>%</small>`;
+        els.resultChars.textContent = result.correct;
+        els.resultErrors.textContent = result.errors;
+        const speedMessage = difference >= 0
+          ? `コミュニティ平均より <strong>+${difference} WPM</strong>。いいリズムです。`
+          : `コミュニティ平均まであと <strong>${Math.abs(difference)} WPM</strong>。次の一打へ。`;
+        const accuracyMessage = accuracyDifference >= 0
+          ? `正確率も平均より <strong>+${accuracyDifference}pt</strong>。`
+          : `正確率は平均より <strong>${Math.abs(accuracyDifference)}pt</strong> 下回りました。`;
+        els.resultMessage.innerHTML = `${speedMessage}<br>${accuracyMessage}`;
+        els.percentileLabel.textContent = `上位 ${Math.max(1, 100 - percentile)}% 相当`;
+        els.youBarValue.textContent = result.wpm;
+        els.averageBarValue.textContent = AVERAGE_WPM;
+        const scale = Math.max(AVERAGE_WPM * 1.55, result.wpm * 1.08, 1);
+        window.requestAnimationFrame(() => {
+          els.youBar.style.width = `${Math.min(100, (result.wpm / scale) * 100)}%`;
+          els.averageBar.style.width = `${Math.min(100, (AVERAGE_WPM / scale) * 100)}%`;
+        });
+      }
+
+      function saveResult(result) {
+        const ranking = getRanking().map((entry) => ({ ...entry, current: false }));
+        if (result.correct || result.errors) ranking.push({ name: result.name, wpm: result.wpm, accuracy: result.accuracy, current: true });
+        ranking.sort((a, b) => b.wpm - a.wpm);
+        writeStorage(RANKING_KEY, ranking.slice(0, 20));
+        const oldBest = Number(readStorage(PB_KEY, 0)) || 0;
+        if (result.wpm > oldBest) writeStorage(PB_KEY, result.wpm);
+        renderRanking();
+        renderPersonalBest();
+      }
+
+      function renderPersonalBest() {
+        const best = Number(readStorage(PB_KEY, 0)) || 0;
+        els.personalBest.innerHTML = best ? `${best}<small>WPM</small>` : '—<small>WPM</small>';
+      }
+
+      function renderRanking() {
+        const ranking = getRanking();
+        els.rankingList.textContent = '';
+        ranking.slice(0, 7).forEach((entry, index) => {
+          const item = document.createElement('li');
+          item.className = `ranking-item${entry.current ? ' current' : ''}`;
+          const position = document.createElement('span');
+          position.className = `ranking-position${index < 3 ? ' top' : ''}`;
+          position.textContent = index < 3 ? ['✦', '✧', '·'][index] : String(index + 1).padStart(2, '0');
+          const name = document.createElement('span');
+          name.className = 'ranking-name';
+          name.textContent = entry.name;
+          const accuracy = document.createElement('span');
+          accuracy.className = 'ranking-accuracy';
+          accuracy.textContent = `${entry.accuracy}%`;
+          const wpm = document.createElement('strong');
+          wpm.className = 'ranking-wpm';
+          wpm.innerHTML = `${entry.wpm}<small>WPM</small>`;
+          item.append(position, name, accuracy, wpm);
+          els.rankingList.appendChild(item);
+        });
+      }
+
+      function initialize() {
+        els.averageHero.textContent = AVERAGE_WPM;
+        els.rankingAverage.textContent = AVERAGE_WPM;
+        els.year.textContent = new Date().getFullYear();
+        const savedAlias = readStorage(ALIAS_KEY, 'Sakurako');
+        els.alias.value = cleanAlias(savedAlias);
+        els.alias.addEventListener('input', () => writeStorage(ALIAS_KEY, cleanAlias(els.alias.value)));
+        document.querySelectorAll('.mode-button').forEach((button) => button.addEventListener('click', () => {
+          if (!state.running) setMode(Number(button.dataset.time));
+        }));
+        els.startButton.addEventListener('click', startGame);
+        els.resetButton.addEventListener('click', resetGame);
+        let composing = false;
+        els.typingInput.addEventListener('compositionstart', () => { composing = true; });
+        els.typingInput.addEventListener('compositionend', () => { composing = false; handleInput(); });
+        els.typingInput.addEventListener('input', () => { if (!composing) handleInput(); });
+        document.addEventListener('keydown', (event) => {
+          if (event.code === 'Space' && !state.running && document.activeElement !== els.alias) {
+            event.preventDefault();
+            startGame();
+          }
+        });
+        renderPersonalBest();
+        renderRanking();
+        resetGame();
+      }
+
+      initialize();
+    })();
   </script>
 </body>
 </html>
