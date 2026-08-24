@@ -74,11 +74,11 @@
     .live-status::before { width: 7px; height: 7px; border-radius: 50%; content: ""; background: var(--coral); box-shadow: 0 0 0 4px rgba(255, 128, 106, .17); }
 
     .hero {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 290px;
-      gap: 50px;
-      align-items: end;
-      padding: 72px 0 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+      padding: 38px 0 32px;
     }
     .eyebrow, .section-kicker {
       margin: 0 0 18px;
@@ -89,10 +89,10 @@
     }
     .eyebrow { display: inline-flex; align-items: center; gap: 9px; }
     .eyebrow::before { width: 27px; height: 2px; content: ""; background: var(--coral); }
-    h1 { max-width: 780px; margin: 0; font-size: clamp(3.1rem, 7.6vw, 6.3rem); font-weight: 800; letter-spacing: -.1em; line-height: 1.13; }
+    h1 { max-width: 780px; margin: 0; font-size: clamp(2.35rem, 5vw, 3.8rem); font-weight: 800; letter-spacing: -.09em; line-height: 1.13; }
     h1 em { position: relative; display: inline-block; color: var(--coral); font-family: var(--display); font-style: normal; font-weight: 600; letter-spacing: -.13em; }
     h1 em::after { position: absolute; right: 2%; bottom: 4px; left: 3%; height: 10px; z-index: -1; content: ""; background: var(--lime); transform: rotate(-2deg); }
-    .hero-copy { max-width: 640px; margin: 23px 0 0; color: var(--muted); font-size: .95rem; letter-spacing: .025em; }
+    .hero-copy { max-width: 640px; margin: 12px 0 0; color: var(--muted); font-size: .84rem; letter-spacing: .025em; }
     .average-card { position: relative; overflow: hidden; padding: 26px 25px 24px; border-radius: var(--radius-md); background: var(--ink); color: var(--white); }
     .average-card::after { position: absolute; right: -33px; bottom: -56px; width: 135px; height: 135px; border: 1px solid rgba(139, 222, 210, .7); border-radius: 50%; content: ""; }
     .average-label { position: relative; z-index: 1; display: block; color: var(--lime); font-size: .62rem; font-weight: 800; letter-spacing: .15em; }
@@ -132,6 +132,11 @@
     .genre-select { min-width: 166px; padding: 8px 32px 8px 12px; border: 1px solid var(--line); border-radius: 99px; outline: 0; appearance: none; background: var(--paper); color: var(--ink); font-family: var(--mono); font-size: .62rem; letter-spacing: .05em; }
     .genre-select:focus { border-color: var(--success); box-shadow: 0 0 0 3px rgba(139, 222, 210, .3); }
     .genre-select-wrap::after { position: absolute; right: 13px; color: var(--success); content: "⌄"; font-size: .82rem; pointer-events: none; }
+    .language-row { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin: -8px 0 24px; }
+    .language-switch { display: inline-flex; gap: 4px; padding: 4px; border-radius: 99px; background: var(--paper); }
+    .language-button { min-width: 82px; padding: 6px 10px; border: 0; border-radius: 99px; background: transparent; color: var(--muted); font-size: .65rem; transition: background .2s ease, color .2s ease; }
+    .language-button:hover { color: var(--ink); }
+    .language-button[aria-selected="true"] { background: var(--ink); color: var(--white); }
     .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; margin-bottom: 26px; }
     .stat { min-width: 0; padding: 14px 15px 12px; border-radius: 13px; background: var(--paper); }
     .stat-label { display: block; overflow: hidden; color: var(--muted); font-size: .61rem; font-weight: 800; letter-spacing: .12em; text-overflow: ellipsis; white-space: nowrap; }
@@ -146,7 +151,7 @@
     .phrase-genre { padding: 3px 6px; border: 1px solid var(--line); border-radius: 5px; color: var(--muted); font-size: .54rem; letter-spacing: .06em; }
     .japanese-prompt { margin: 0 0 8px; font-size: 1.03rem; font-weight: 700; letter-spacing: .04em; line-height: 1.8; }
     .target-text { min-height: 52px; color: #a9aea5; font-family: var(--mono); font-size: clamp(.93rem, 1.8vw, 1.08rem); letter-spacing: .03em; line-height: 1.85; word-break: break-word; }
-    .target-text span { border-radius: 3px; transition: color .12s ease, background .12s ease; }
+    .target-text span { border-radius: 3px; transition: none; }
     .target-text span.correct { color: var(--success); }
     .target-text span.incorrect { color: var(--danger); background: rgba(214, 94, 85, .15); }
     .target-text span.current { color: var(--ink); background: var(--lime); box-shadow: 0 0 0 2px var(--lime); }
@@ -158,7 +163,7 @@
     .typing-input:disabled { cursor: not-allowed; background: #f0eee7; }
     .input-key { position: absolute; right: 13px; display: grid; width: 25px; height: 25px; place-items: center; border: 1px solid var(--line); border-radius: 6px; color: var(--muted); font-family: var(--mono); font-size: .7rem; pointer-events: none; }
     .progress-track { height: 5px; margin: 18px 0 0; overflow: hidden; border-radius: 99px; background: var(--paper-deep); }
-    .progress-track span { display: block; width: 0; height: 100%; border-radius: inherit; background: var(--coral); transition: width .14s ease; }
+    .progress-track span { display: block; width: 0; height: 100%; border-radius: inherit; background: var(--coral); transition: none; }
     .typing-note { margin: 12px 0 0; color: var(--muted); font-size: .68rem; }
     .control-row { display: flex; align-items: center; gap: 13px; margin-top: 22px; }
     .primary-button, .secondary-button { min-height: 47px; border-radius: 99px; font-size: .78rem; font-weight: 800; transition: transform .2s ease, box-shadow .2s ease, background .2s ease; }
@@ -260,8 +265,8 @@
       .site-header { min-height: 76px; }
       .header-meta { gap: 0; }
       .header-meta .season { display: none; }
-      .hero { grid-template-columns: 1fr; gap: 29px; padding: 52px 0 48px; }
-      h1 { font-size: clamp(3rem, 14vw, 4.5rem); }
+      .hero { align-items: start; flex-direction: column; gap: 20px; padding: 30px 0 28px; }
+      h1 { font-size: clamp(2.35rem, 12vw, 3.6rem); }
       .average-card { max-width: 290px; }
       .game-head { align-items: start; flex-direction: column; gap: 10px; padding: 21px 19px 17px; }
       .game-content { padding: 21px 19px 23px; }
@@ -272,6 +277,7 @@
       .mode-row { align-items: start; flex-direction: column; gap: 9px; }
       .difficulty-row { align-items: start; flex-direction: column; gap: 9px; }
       .genre-row { align-items: start; flex-direction: column; gap: 9px; }
+      .language-row { align-items: start; flex-direction: column; gap: 9px; }
       .control-row { flex-wrap: wrap; }
       .shortcut { width: 100%; margin-left: 0; }
       .side-column { grid-template-columns: 1fr; }
@@ -308,9 +314,8 @@
     <main id="top">
       <section class="hero" aria-labelledby="hero-title">
         <div>
-          <p class="eyebrow">TYPING GAME / 001</p>
-          <h1 id="hero-title">タイピングゲーム</h1>
-          <p class="hero-copy">制限時間内に文章を何個打てるか挑戦。WPM・正確率・ランキングで結果を比べられます。</p>
+          <p class="eyebrow">PLAY / TYPE LAB</p>
+          <h1 id="hero-title">ゲーム</h1>
         </div>
         <div class="average-card" aria-label="コミュニティ平均WPM">
           <span class="average-label">COMMUNITY AVERAGE</span>
@@ -362,6 +367,13 @@
                 </select>
               </label>
             </div>
+            <div class="language-row">
+              <span class="mode-label">LANGUAGE</span>
+              <div class="language-switch" role="tablist" aria-label="入力言語">
+                <button class="language-button" type="button" data-language="ja" role="tab" aria-selected="true">日本語</button>
+                <button class="language-button" type="button" data-language="en" role="tab" aria-selected="false">English</button>
+              </div>
+            </div>
 
             <div class="stats-grid" aria-live="polite" aria-label="現在のスコア">
               <div class="stat timer"><span class="stat-label">TIME LEFT</span><strong class="stat-value" id="timeLeft">00:30</strong></div>
@@ -371,7 +383,7 @@
             </div>
 
             <div class="typing-box">
-              <div class="typing-label"><span>TYPE THIS ROMAJI / SPACES OPTIONAL</span><span class="phrase-meta"><span class="phrase-count" id="phraseCount">LINE 01</span><span class="phrase-difficulty" id="phraseDifficulty">MIX</span><span class="phrase-genre" id="phraseGenre">ALL</span></span></div>
+              <div class="typing-label"><span id="typingModeLabel">TYPE THIS ROMAJI / SPACES OPTIONAL</span><span class="phrase-meta"><span class="phrase-count" id="phraseCount">LINE 01</span><span class="phrase-difficulty" id="phraseDifficulty">MIX</span><span class="phrase-genre" id="phraseGenre">ALL</span></span></div>
               <p class="japanese-prompt" id="japanesePrompt">小さな好奇心を、今日の一歩に変えてみよう。</p>
               <div class="target-text" id="targetText" aria-label="入力するローマ字">chiisanakoukishinwo,kyounoipponikaetemiyou.</div>
               <div class="input-wrap">
@@ -379,7 +391,7 @@
                 <span class="input-key" aria-hidden="true">↵</span>
               </div>
               <div class="progress-track" aria-hidden="true"><span id="progressFill"></span></div>
-              <p class="typing-note">スペースは入力しなくてOK。かなごとの複数表記（例：し＝shi / si、ん＝n / nn）に対応しています。WPMは「正しく入力した5文字＝1 word」で計算します。</p>
+              <p class="typing-note" id="typingNote">スペースは入力しなくてOK。かなごとの複数表記（例：し＝shi / si、ん＝n / nn）に対応しています。WPMは「正しく入力した5文字＝1 word」で計算します。</p>
             </div>
 
             <div class="control-row">
@@ -561,6 +573,21 @@
         return { jp, kana, difficulty, genre, segments, text: segments.map((segment) => segment.display).join('') };
       }
 
+      function buildTextSegments(text) {
+        return Array.from(text).map((character) => ({
+          kana: character,
+          // Whitespace is an epsilon segment: it stays visible but is not
+          // required from the player because spaces are optional in every mode.
+          options: /\s/.test(character) ? [''] : [character.toLowerCase()],
+          display: character
+        }));
+      }
+
+      function buildEnglishPhrase(prompt, text, difficulty = 'normal', genre = 'daily') {
+        const segments = buildTextSegments(text);
+        return { jp: prompt, difficulty, genre, segments, text };
+      }
+
       const phrases = [
         buildPhrase('おはようございます。', 'おはようございます。', 'easy', 'daily'),
         buildPhrase('今日はいい天気です。', 'きょうはいいてんきです。', 'easy', 'daily'),
@@ -590,6 +617,34 @@
         buildPhrase('便利さの裏側にある仕組みを、丁寧に想像してみる。', 'べんりさのうらがわにあるしくみを、ていねいにそうぞうしてみる。', 'hard', 'tech'),
         buildPhrase('音のない余白があるから、言葉は深く届いていく。', 'おとのないよはくがあるから、ことばはふかくとどいていく。', 'hard', 'creative')
       ];
+      const englishPhrases = [
+        buildEnglishPhrase('おはよう。', 'Good morning.', 'easy', 'daily'),
+        buildEnglishPhrase('今日は明るい日だ。', 'Today is a bright day.', 'easy', 'daily'),
+        buildEnglishPhrase('深呼吸をひとつ。', 'Take a deep breath.', 'easy', 'daily'),
+        buildEnglishPhrase('猫は窓辺で眠っている。', 'The cat is sleeping by the window.', 'easy', 'nature'),
+        buildEnglishPhrase('雨のあとに虹が出る。', 'A rainbow appears after the rain.', 'easy', 'nature'),
+        buildEnglishPhrase('荷物は軽くして出かけよう。', 'Pack light and go somewhere new.', 'easy', 'travel'),
+        buildEnglishPhrase('本を閉じても物語は続く。', 'A story can stay with you after the book is closed.', 'easy', 'creative'),
+        buildEnglishPhrase('まずは小さく作ってみる。', 'When in doubt, make one small thing.', 'normal', 'creative'),
+        buildEnglishPhrase('好きな音楽を聴きながら歩く。', 'Walk slowly with your favorite music.', 'normal', 'daily'),
+        buildEnglishPhrase('焼きたてのパンの香りが街に広がる。', 'The smell of fresh bread travels through the morning street.', 'normal', 'food'),
+        buildEnglishPhrase('知らない街の角で物語が始まる。', 'A new story begins around an unfamiliar corner.', 'normal', 'travel'),
+        buildEnglishPhrase('小さな画面の向こうにも生活がある。', 'There is a whole life on the other side of a small screen.', 'normal', 'tech'),
+        buildEnglishPhrase('アイデアは試すことで形になる。', 'An idea takes shape when you try it.', 'normal', 'creative'),
+        buildEnglishPhrase('コードを一行変えると景色が変わる。', 'One changed line of code can shift the whole view.', 'normal', 'tech'),
+        buildEnglishPhrase('朝の光が静かな一日を始める。', 'Morning light opens the door to a quiet day.', 'hard', 'nature'),
+        buildEnglishPhrase('新しい道を選ぶと景色が変わる。', 'Choose a new road and the landscape changes.', 'hard', 'travel'),
+        buildEnglishPhrase('言葉にならない気持ちも育てていく。', 'Even feelings without words deserve time to grow.', 'hard', 'creative'),
+        buildEnglishPhrase('季節の野菜をゆっくり煮込む。', 'Let seasonal vegetables simmer until the room smells warm.', 'hard', 'food'),
+        buildEnglishPhrase('複雑な問題ほど問いを分けて考える。', 'The more complex the problem, the more useful a smaller question becomes.', 'hard', 'tech'),
+        buildEnglishPhrase('見慣れた景色にも発見は隠れている。', 'Unfamiliar discoveries hide inside familiar scenery.', 'hard', 'nature'),
+        buildEnglishPhrase('遠回りが大切な近道になることもある。', 'A detour can become the most important shortcut.', 'hard', 'travel'),
+        buildEnglishPhrase('うまくいかない日も学びは積み重なる。', 'Even on hard days, quiet lessons keep adding up.', 'hard', 'creative'),
+        buildEnglishPhrase('風の音に森のリズムを聴く。', 'Listen closely and the forest reveals its rhythm.', 'hard', 'nature'),
+        buildEnglishPhrase('便利さの裏側にある仕組みを想像する。', 'Look beneath convenience and imagine the system that makes it possible.', 'hard', 'tech'),
+        buildEnglishPhrase('音のない余白が言葉を深くする。', 'Silence between words can make meaning travel farther.', 'hard', 'creative')
+      ];
+      const phraseCatalog = { ja: phrases, en: englishPhrases };
       const seedRanking = [
         { name: 'Mika', wpm: 74, accuracy: 98 },
         { name: 'Sora', wpm: 66, accuracy: 96 },
@@ -601,6 +656,7 @@
       ];
       const difficultyLabels = { all: 'MIX', easy: 'EASY', normal: 'NORMAL', hard: 'HARD' };
       const genreLabels = { all: 'ALL', daily: 'DAILY', nature: 'NATURE', travel: 'TRAVEL', food: 'FOOD', creative: 'CREATIVE', tech: 'TECH' };
+      const languageLabels = { ja: 'JA', en: 'EN' };
 
       const els = {
         alias: document.getElementById('aliasInput'),
@@ -616,7 +672,10 @@
         phraseDifficulty: document.getElementById('phraseDifficulty'),
         phraseGenre: document.getElementById('phraseGenre'),
         genreSelect: document.getElementById('genreSelect'),
+        languageButtons: document.querySelectorAll('.language-button'),
         japanesePrompt: document.getElementById('japanesePrompt'),
+        typingModeLabel: document.getElementById('typingModeLabel'),
+        typingNote: document.getElementById('typingNote'),
         targetText: document.getElementById('targetText'),
         typingInput: document.getElementById('typingInput'),
         progressFill: document.getElementById('progressFill'),
@@ -642,12 +701,15 @@
         mode: 30,
         difficulty: 'all',
         genre: 'all',
+        language: 'ja',
         running: false,
         startedAt: 0,
         timerId: null,
         transitionId: null,
         timeLeft: 30,
         phraseNumber: 0,
+        phraseQueue: [],
+        lastPhrase: null,
         currentPhrase: phrases[0],
         targetSegments: phrases[0].segments,
         committedCorrect: 0,
@@ -713,6 +775,14 @@
         resetGame();
       }
 
+      function setLanguage(language) {
+        state.language = language;
+        els.languageButtons.forEach((button) => {
+          button.setAttribute('aria-selected', String(button.dataset.language === language));
+        });
+        resetGame();
+      }
+
       function setGenre(genre) {
         state.genre = genre;
         els.genreSelect.value = genre;
@@ -720,7 +790,8 @@
       }
 
       function phrasePool() {
-        const matches = phrases.filter((phrase) => {
+        const source = phraseCatalog[state.language] || phrases;
+        const matches = source.filter((phrase) => {
           const matchesDifficulty = state.difficulty === 'all' || phrase.difficulty === state.difficulty;
           const matchesGenre = state.genre === 'all' || phrase.genre === state.genre;
           return matchesDifficulty && matchesGenre;
@@ -728,13 +799,23 @@
         // Some difficulty/genre combinations may not have a dedicated line;
         // keep the selected genre playable instead of showing a blank screen.
         if (matches.length) return matches;
-        const genreMatches = phrases.filter((phrase) => state.genre === 'all' || phrase.genre === state.genre);
-        return genreMatches.length ? genreMatches : phrases;
+        const genreMatches = source.filter((phrase) => state.genre === 'all' || phrase.genre === state.genre);
+        return genreMatches.length ? genreMatches : source;
+      }
+
+      function refillPhraseQueue() {
+        const pool = phrasePool();
+        state.phraseQueue = pool.slice().sort(() => Math.random() - 0.5);
+        if (state.phraseQueue.length > 1 && state.phraseQueue[0] === state.lastPhrase) {
+          const replacementIndex = state.phraseQueue.findIndex((phrase) => phrase !== state.lastPhrase);
+          if (replacementIndex > 0) [state.phraseQueue[0], state.phraseQueue[replacementIndex]] = [state.phraseQueue[replacementIndex], state.phraseQueue[0]];
+        }
       }
 
       function choosePhrase() {
-        const pool = phrasePool();
-        state.currentPhrase = pool[state.phraseNumber % pool.length];
+        if (!state.phraseQueue.length) refillPhraseQueue();
+        state.currentPhrase = state.phraseQueue.shift();
+        state.lastPhrase = state.currentPhrase;
         state.phraseNumber += 1;
         state.targetSegments = state.currentPhrase.segments;
         state.currentCorrect = 0;
@@ -745,6 +826,12 @@
         els.phraseCount.textContent = `LINE ${String(state.phraseNumber).padStart(2, '0')}`;
         els.phraseDifficulty.textContent = difficultyLabels[state.currentPhrase.difficulty] || 'MIX';
         els.phraseGenre.textContent = genreLabels[state.currentPhrase.genre] || 'ALL';
+        const isEnglish = state.language === 'en';
+        els.typingModeLabel.textContent = isEnglish ? 'TYPE THIS ENGLISH / SPACES OPTIONAL' : 'TYPE THIS ROMAJI / SPACES OPTIONAL';
+        els.typingNote.textContent = isEnglish
+          ? 'スペースは入力しなくてOK。大文字・小文字は区別しません。WPMは「正しく入力した5文字＝1 word」で計算します。'
+          : 'スペースは入力しなくてOK。かなごとの複数表記（例：し＝shi / si、ん＝n / nn）に対応しています。WPMは「正しく入力した5文字＝1 word」で計算します。';
+        els.typingInput.placeholder = isEnglish ? 'ゲーム開始後、ここに入力…' : 'ゲーム開始後、ここにローマ字で入力…';
         renderTarget(matchInput('', state.targetSegments));
       }
 
@@ -876,7 +963,6 @@
       function handleInput() {
         if (!state.running || state.transitioning) return;
         const stats = currentInputStats();
-        if (els.typingInput.value !== stats.typed) els.typingInput.value = stats.typed;
         state.currentCorrect = stats.correct;
         state.currentErrors = stats.errors;
         state.bestStreak = Math.max(state.bestStreak, stats.trailing);
@@ -891,7 +977,7 @@
           state.transitioning = true;
           state.transitionId = window.setTimeout(() => {
             if (state.running) choosePhrase();
-          }, 170);
+          }, 40);
         }
       }
 
@@ -907,6 +993,8 @@
         state.currentErrors = 0;
         state.bestStreak = 0;
         state.phraseNumber = 0;
+        state.phraseQueue = [];
+        state.lastPhrase = null;
         choosePhrase();
         els.typingInput.disabled = false;
         els.typingInput.focus();
@@ -930,15 +1018,16 @@
       function finishGame() {
         if (!state.running) return;
         const totals = getTotals();
+        const elapsed = Math.min(state.mode, Math.max(.1, (performance.now() - state.startedAt) / 1000));
         state.running = false;
         window.clearInterval(state.timerId);
         state.timerId = null;
         if (state.transitionId) window.clearTimeout(state.transitionId);
         state.transitionId = null;
         state.transitioning = false;
-        const wpm = calculateWpm(totals.correct, state.mode);
+        const wpm = calculateWpm(totals.correct, elapsed);
         const accuracy = totals.attempted ? Math.round((totals.correct / totals.attempted) * 100) : 100;
-        const result = { name: cleanAlias(els.alias.value), wpm, accuracy, correct: totals.correct, errors: totals.errors, mode: state.mode, id: Date.now() };
+        const result = { name: cleanAlias(els.alias.value), wpm, accuracy, correct: totals.correct, errors: totals.errors, mode: state.mode, seconds: elapsed, id: Date.now() };
         els.typingInput.disabled = true;
         els.startButton.disabled = false;
         els.startButton.innerHTML = 'もう一度プレイ <span class="arrow" aria-hidden="true">→</span>';
@@ -962,6 +1051,8 @@
         state.currentErrors = 0;
         state.bestStreak = 0;
         state.phraseNumber = 0;
+        state.phraseQueue = [];
+        state.lastPhrase = null;
         choosePhrase();
         els.typingInput.disabled = true;
         els.startButton.disabled = false;
@@ -1053,6 +1144,9 @@
         }));
         document.querySelectorAll('.difficulty-button').forEach((button) => button.addEventListener('click', () => {
           if (!state.running) setDifficulty(button.dataset.level);
+        }));
+        els.languageButtons.forEach((button) => button.addEventListener('click', () => {
+          if (!state.running) setLanguage(button.dataset.language);
         }));
         els.genreSelect.addEventListener('change', () => {
           if (!state.running) setGenre(els.genreSelect.value);
